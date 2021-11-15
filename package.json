@@ -1,5 +1,5 @@
 {
-  "name": "innowise-calc",
+  "name": "innowise-weather",
   "version": "1.0.0",
   "description": "Level: 0",
   "main": "index.js",
@@ -43,19 +43,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LastSkywalkerER/innowise-calc.git"
+    "url": "git+https://github.com/LastSkywalkerER/innowise-weather.git"
   },
   "keywords": [
     "innowise",
-    "first-task",
-    "calc"
+    "second-task",
+    "weather"
   ],
   "author": "Maxim Drozd",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LastSkywalkerER/innowise-calc/issues"
+    "url": "https://github.com/LastSkywalkerER/innowise-weather/issues"
   },
-  "homepage": "https://github.com/LastSkywalkerER/innowise-calc#readme",
+  "homepage": "https://github.com/LastSkywalkerER/innowise-weather#readme",
   "dependencies": {
     "@jest/globals": "^27.3.1",
     "eslint-config-airbnb": "^18.2.1",
