@@ -1,7 +1,13 @@
-import Skyact from './Skyact/Skyact';
+import Skyact from './Skyact';
+import MyTitle from './MyTitle';
 
 export default class WeatherApp extends Skyact.SkyactComponent {
   render() {
-    return Skyact.createElement('h1', null, this.props.message);
+    if (this.props.asTitle) {
+      return Skyact.createElement(MyTitle, {
+        message: this.props.message,
+      });
+    }
+    return Skyact.createElement('p', null, this.props.message);
   }
 }
