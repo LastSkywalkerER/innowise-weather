@@ -7,7 +7,12 @@ import instantiateSkyactComponent from './instantiateSkyactComponent';
 
 export default class SkyactCompositeComponentWrapper {
   constructor(element) {
+    // текущий элемент
     this.currentElement = element;
+    // Внутренний экземпляр
+    this.renderedComponent = null;
+    // внешний экземпляр
+    this.instance = null;
   }
 
   getPublicInstance() {

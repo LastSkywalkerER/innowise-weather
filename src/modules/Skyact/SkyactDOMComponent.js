@@ -3,12 +3,17 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable consistent-return */
-import Skyact from '.';
 import instantiateSkyactComponent from './instantiateSkyactComponent';
+import SkyactReconciler from './SkyactReconciler';
 
 export default class SkyactDOMComponent {
   constructor(element) {
+    // текущий элемент
     this.currentElement = element;
+    // внутренние потомки
+    this.renderedChildren = [];
+    // дом нода
+    this.hostNode = null;
   }
 
   getPublicInstance() {
@@ -44,7 +49,7 @@ export default class SkyactDOMComponent {
         domElement.appendChild(textNode);
         return textNode;
       }
-      return child.mountComponent(domElement);
+      return SkyactReconciler.mountComponent(child, domElement);
     });
 
     container.appendChild(domElement);
