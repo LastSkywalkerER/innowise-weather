@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-continue */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-cycle */
 /* eslint-disable prefer-destructuring */
@@ -20,7 +22,12 @@ export default class SkyactDOMComponent {
     return this.hostNode;
   }
 
+  getHostNode() {
+    return this.hostNode;
+  }
+
   mountComponent(container) {
+    this.container = container;
     const domElement = document.createElement(this.currentElement.type);
     const props = this.currentElement.props;
     let children = this.currentElement.props.children;
@@ -37,13 +44,16 @@ export default class SkyactDOMComponent {
     });
 
     this.renderedChildren = children.map((child) => {
-      if (typeof child === 'string') {
+      if (typeof child === 'string' || !child) {
         return child;
       }
       return instantiateSkyactComponent(child);
     });
 
     this.renderedChildren.map((child) => {
+      if (!child) {
+        return;
+      }
       if (typeof child === 'string') {
         const textNode = document.createTextNode(child);
         domElement.appendChild(textNode);
@@ -66,26 +76,118 @@ export default class SkyactDOMComponent {
   updateComponent(prevElement, nextElement) {
     const lastProps = prevElement.props;
     const nextProps = nextElement.props;
+    this.currentElement = nextElement;
 
     this.updateDOMProperties(lastProps, nextProps);
     this.updateDOMChildren(lastProps, nextProps);
-
-    this.currentElement = nextElement;
   }
 
   // eslint-disable-next-line class-methods-use-this
   updateDOMProperties(lastProps, nextProps) {
-
+    const node = this.hostNode;
+    Object.keys(lastProps).forEach((propName) => {
+      // eslint-disable-next-line no-prototype-builtins
+      if (propName === 'className' && lastProps[propName] !== nextProps[propName]) {
+        node.removeAttribute('class');
+        // eslint-disable-next-line no-prototype-builtins
+      } else if (propName !== 'children' && !nextProps.hasOwnProperty(propName)) {
+        node.removeAttribute(propName);
+      }
+    });
+    Object.keys(nextProps).forEach((propName) => {
+      if (propName === 'className' && typeof nextProps[propName] === 'string') {
+        nextProps[propName].split(' ').forEach((string) => node.classList.add(string));
+      } else if (propName !== 'children') {
+        node.setAttribute(propName, nextProps[propName]);
+      }
+    });
   }
 
   updateDOMChildren(lastProps, nextProps) {
-    const lastContent = lastProps.children;
-    const nextContent = nextProps.children;
+    let prevChildren = lastProps.children || [];
+    if (!Array.isArray(prevChildren)) {
+      prevChildren = [prevChildren];
+    }
+    let nextChildren = nextProps.children || [];
+    if (!Array.isArray(nextChildren)) {
+      nextChildren = [nextChildren];
+    }
 
-    if (!nextContent) {
-      this.updateTextContent('');
-    } else if (lastContent !== nextContent) {
-      this.updateTextContent(`${nextContent}`);
+    const prevRenderedChildren = this.renderedChildren;
+    const nextRenderedChildren = [];
+
+    const opertionQueue = [];
+
+    for (let i = 0; i < nextChildren.length; i++) {
+      const prevChild = prevRenderedChildren[i];
+
+      if (!prevChild) {
+        const nextChid = instantiateSkyactComponent(nextChildren[i]);
+        const node = SkyactReconciler.mountComponent(nextChid, this.container);
+
+        opertionQueue.push({
+          type: 'ADD',
+          node,
+        });
+        nextRenderedChildren.push(nextChid);
+        continue;
+      }
+
+      const canUpdate = prevChildren[i].type === nextChildren[i].type;
+
+      if (!canUpdate) {
+        const prevNode = prevChild.getHostNode();
+        prevChild.unmount();
+
+        const nextChid = instantiateSkyactComponent(nextChildren[i]);
+        const nextNode = SkyactReconciler.mountComponent(nextChid, this.container);
+
+        opertionQueue.push({
+          type: 'REPLACE',
+          prevNode,
+          nextNode,
+        });
+        nextRenderedChildren.push(nextChid);
+        continue;
+      }
+
+      if (typeof prevChild === 'string') {
+        this.hostNode.innerText = nextChildren[i];
+      } else {
+        SkyactReconciler.receiveComponent(prevChild, nextChildren[i]);
+      }
+      nextRenderedChildren.push(prevChild);
+    }
+
+    for (let i = nextChildren.length; i < prevChildren.length; i++) {
+      const prevChild = prevRenderedChildren[i];
+      const node = prevChild.getHostNode();
+      prevChild.unmount();
+
+      opertionQueue.push({
+        type: 'REMOVE',
+        node,
+      });
+    }
+
+    this.renderedChildren = nextRenderedChildren;
+
+    while (opertionQueue.length > 0) {
+      const operation = opertionQueue.shift();
+
+      switch (operation.type) {
+        case 'ADD':
+          this.hostNode.appendChild(operation.node);
+          break;
+        case 'REPLACE':
+          this.hostNode.replaceChild(operation.nextNode, operation.prevNode);
+          break;
+        case 'REMOVE':
+          this.hostNode.removeChild(operation.node);
+          break;
+        default:
+          break;
+      }
     }
   }
 
@@ -101,5 +203,16 @@ export default class SkyactDOMComponent {
     }
 
     node.textContent = text;
+  }
+
+  unmount() {
+    this.renderedChildren.forEach((child) => {
+      if (typeof child !== 'string') {
+        child.unmount();
+      }
+    });
+    // eslint-disable-next-line no-param-reassign
+
+    this.container.innerHTML = '';
   }
 }

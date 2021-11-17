@@ -19,7 +19,12 @@ export default class SkyactCompositeComponentWrapper {
     return this.instance;
   }
 
+  getHostNode() {
+    return this.renderedComponent.getHostNode();
+  }
+
   mountComponent(container) {
+    this.container = container;
     const Component = this.currentElement.type;
     const componentInstance = new Component(this.currentElement.props);
     this.instance = componentInstance;
@@ -39,9 +44,11 @@ export default class SkyactCompositeComponentWrapper {
     const renderedElement = this.instance.render();
 
     const child = instantiateSkyactComponent(renderedElement);
-    this.renderedComponent = child;
+    if (child) {
+      this.renderedComponent = child;
 
-    return SkyactReconciler.mountComponent(child, container);
+      return SkyactReconciler.mountComponent(child, container);
+    }
   }
 
   receiveComponent(nextElement) {
@@ -51,6 +58,7 @@ export default class SkyactCompositeComponentWrapper {
 
   updateComponent(prevElement, nextElement) {
     this.rendering = true;
+    // const prevProps = prevElement.props;
     const nextProps = nextElement.props;
     const inst = this.instance;
     let shouldUpdate = true;
@@ -117,8 +125,33 @@ export default class SkyactCompositeComponentWrapper {
   updateRenderedComponent() {
     const prevComponentInstance = this.renderedComponent;
     const inst = this.instance;
+    const prevRenderedElement = prevComponentInstance.currentElement;
     const nextRenderedElement = inst.render();
 
-    SkyactReconciler.receiveComponent(prevComponentInstance, nextRenderedElement);
+    if (prevRenderedElement.type === nextRenderedElement.type) {
+      SkyactReconciler.receiveComponent(prevComponentInstance, nextRenderedElement);
+      return;
+    }
+
+    const prevNode = prevComponentInstance.getHostNode();
+
+    prevComponentInstance.unmount();
+    const nextComponentInstance = instantiateSkyactComponent(nextRenderedElement);
+    const nextNode = SkyactReconciler.mountComponent(nextComponentInstance, this.container);
+
+    this.renderedComponent = nextComponentInstance;
+
+    prevNode.parentNode.replaceChild(nextNode, prevNode);
+  }
+
+  unmount() {
+    const publicInstance = this.instance;
+    if (publicInstance) {
+      if (publicInstance.componentWillUnmount) {
+        publicInstance.componentWillUnmount();
+      }
+    }
+
+    this.renderedComponent.unmount();
   }
 }

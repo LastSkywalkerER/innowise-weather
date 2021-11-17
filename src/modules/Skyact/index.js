@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable consistent-return */
 /* eslint-disable import/no-cycle */
 /* eslint-disable class-methods-use-this */
 import SkyactCompositeComponentWrapper from './SkyactCompositeComponentWrapper';
@@ -36,12 +38,26 @@ function updateRootComponent(prevComponent, nextElement) {
   SkyactReconciler.receiveComponent(prevComponent, nextElement);
 }
 
-function render(element, container) {
-  const prevComponent = getTopLevelComponentInContainer(container);
+function unmount(container) {
+  const rootComponent = getTopLevelComponentInContainer(container);
 
-  if (prevComponent) {
-    return updateRootComponent(prevComponent, element);
+  rootComponent.unmount();
+  container.innerHTML = '';
+}
+
+function render(element, container) {
+  if (container.firstChild) {
+    const prevRootComponent = getTopLevelComponentInContainer(container);
+    const prevElement = prevRootComponent.currentElement;
+
+    if (prevElement.type === element.type) {
+      updateRootComponent(prevRootComponent, element);
+      return;
+    }
+
+    unmount(container);
   }
+
   return renderNewRootComponent(element, container);
 }
 
