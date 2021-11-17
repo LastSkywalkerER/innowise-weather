@@ -2,12 +2,16 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable consistent-return */
 import SkyactReconciler from './SkyactReconciler';
-import SkyactDOMComponent from './SkyactDOMComponent';
 import SkyactInstanceMap from './SkyactInstanceMap';
+import instantiateSkyactComponent from './instantiateSkyactComponent';
 
 export default class SkyactCompositeComponentWrapper {
   constructor(element) {
     this.currentElement = element;
+  }
+
+  getPublicInstance() {
+    return this.instance;
   }
 
   mountComponent(container) {
@@ -29,19 +33,10 @@ export default class SkyactCompositeComponentWrapper {
   performInitialMount(container) {
     const renderedElement = this.instance.render();
 
-    const child = this.instantiateSkyactComponent(renderedElement);
+    const child = instantiateSkyactComponent(renderedElement);
     this.renderedComponent = child;
 
     return SkyactReconciler.mountComponent(child, container);
-  }
-
-  instantiateSkyactComponent(element) {
-    if (typeof element.type === 'string') {
-      return new SkyactDOMComponent(element);
-    }
-    if (typeof element.type === 'function') {
-      return new SkyactCompositeComponentWrapper(element);
-    }
   }
 
   receiveComponent(nextElement) {

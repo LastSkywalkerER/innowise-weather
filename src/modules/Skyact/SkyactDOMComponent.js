@@ -4,10 +4,15 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable consistent-return */
 import Skyact from '.';
+import instantiateSkyactComponent from './instantiateSkyactComponent';
 
 export default class SkyactDOMComponent {
   constructor(element) {
     this.currentElement = element;
+  }
+
+  getPublicInstance() {
+    return this.hostNode;
   }
 
   mountComponent(container) {
@@ -26,13 +31,20 @@ export default class SkyactDOMComponent {
       }
     });
 
-    children.forEach((childElement) => {
-      if (typeof childElement === 'string') {
-        const textNode = document.createTextNode(childElement);
-        domElement.appendChild(textNode);
-      } else {
-        Skyact.render(childElement, domElement);
+    this.renderedChildren = children.map((child) => {
+      if (typeof child === 'string') {
+        return child;
       }
+      return instantiateSkyactComponent(child);
+    });
+
+    this.renderedChildren.map((child) => {
+      if (typeof child === 'string') {
+        const textNode = document.createTextNode(child);
+        domElement.appendChild(textNode);
+        return textNode;
+      }
+      return child.mountComponent(domElement);
     });
 
     container.appendChild(domElement);
