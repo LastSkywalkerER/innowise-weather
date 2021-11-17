@@ -1,3 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-cycle */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable consistent-return */
+import Skyact from '.';
+
 export default class SkyactDOMComponent {
   constructor(element) {
     this.currentElement = element;
@@ -5,9 +12,28 @@ export default class SkyactDOMComponent {
 
   mountComponent(container) {
     const domElement = document.createElement(this.currentElement.type);
-    const text = this.currentElement.props.children;
-    const textNode = document.createTextNode(text);
-    domElement.appendChild(textNode);
+    const props = this.currentElement.props;
+    let children = this.currentElement.props.children;
+    if (!Array.isArray(children)) {
+      children = [children];
+    }
+
+    Object.keys(props).forEach((propName) => {
+      if (propName === 'className' && typeof props[propName] === 'string') {
+        props[propName].split(' ').forEach((string) => domElement.classList.add(string));
+      } else if (propName !== 'children') {
+        domElement.setAttribute(propName, props[propName]);
+      }
+    });
+
+    children.forEach((childElement) => {
+      if (typeof childElement === 'string') {
+        const textNode = document.createTextNode(childElement);
+        domElement.appendChild(textNode);
+      } else {
+        Skyact.render(childElement, domElement);
+      }
+    });
 
     container.appendChild(domElement);
 

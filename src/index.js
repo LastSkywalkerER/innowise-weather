@@ -10,11 +10,11 @@ Skyact.render(Skyact.createElement(WeatherApp, {
   }),
   document.getElementById('root'));
 
-setTimeout(() => {
-  console.log('updated');
-  Skyact.render(Skyact.createElement(WeatherApp, {
-      message: 'I was updating',
-      // asTitle: true,
-    }),
-    document.getElementById('root'));
-}, 2000);
+// setTimeout(() => {
+//   console.log('updated');
+//   Skyact.render(Skyact.createElement(WeatherApp, {
+//       message: 'I was updating',
+//       asTitle: true,
+//     }),
+//     document.getElementById('root'));
+// }, 2000);

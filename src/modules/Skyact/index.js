@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable class-methods-use-this */
 import SkyactCompositeComponentWrapper from './SkyactCompositeComponentWrapper';
 import SkyactComponent from './SkyactComponent';
@@ -9,7 +10,6 @@ function createElement(type, props, children) {
     type,
     props: props || {},
   };
-
   if (children) {
     element.props.children = children;
   }
