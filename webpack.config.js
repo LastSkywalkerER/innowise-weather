@@ -1,10 +1,10 @@
-'use strict';
-
+/* eslint-disable indent */
 const path = require('path');
 const {
-  CleanWebpackPlugin
+  CleanWebpackPlugin,
 } = require('clean-webpack-plugin');
 const HTMLwebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
@@ -23,22 +23,22 @@ const optimization = () => {
     config.minimizer = [
       new OptimizeCssAssetWebpackPlugin(),
       new TerserWebpackPlugin(),
-    ]
+    ];
   }
 
   return config;
 };
 
-const fileName = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`;
+const fileName = (ext) => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
-    main: './index.js'
+    main: './index.js',
   },
   output: {
     filename: fileName('js'),
-    path: path.resolve(__dirname, './dist')
+    path: path.resolve(__dirname, './dist'),
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx'],
@@ -47,7 +47,7 @@ module.exports = {
       '@fonts': path.resolve(__dirname, 'fonts'),
       '@img': path.resolve(__dirname, 'img'),
       '@sass': path.resolve(__dirname, 'sass'),
-    }
+    },
   },
   optimization: optimization(),
   mode: 'development',
@@ -61,7 +61,7 @@ module.exports = {
         test: /\.css$/,
         use: [{
             loader: MiniCssExtractPlugin.loader,
-            options: {}
+            options: {},
           },
           'css-loader',
         ],
@@ -69,10 +69,10 @@ module.exports = {
         test: /\.sass$/,
         use: [{
             loader: MiniCssExtractPlugin.loader,
-            options: {}
+            options: {},
           },
           'css-loader',
-          'sass-loader'
+          'sass-loader',
         ],
       }, {
         test: /\.(png|jpg|gif|svg)$/,
@@ -87,7 +87,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env']
+            presets: ['@babel/env'],
           },
         },
         exclude: /node_modules/,
@@ -97,12 +97,12 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-react']
+            presets: ['@babel/preset-react'],
           },
         },
         exclude: /node_modules/,
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -110,10 +110,16 @@ module.exports = {
       template: './index.html',
       minify: {
         collapseWhitespace: isProd,
-      }
+      },
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: path.resolve(__dirname, 'src/static'),
+        to: path.resolve(__dirname, 'dist/static'),
+      }],
     }),
     new MiniCssExtractPlugin({
       filename: fileName('css'),
     }),
-  ]
+  ],
 };
