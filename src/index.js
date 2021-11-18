@@ -1,7 +1,9 @@
 /* eslint-disable indent */
 import Skyact from './modules/Skyact';
 import WeatherApp from './modules/WeatherApp';
+// import 'normalize-scss';
 
+import './styles/normalize.css';
 import './style.sass';
 
 Skyact.render(Skyact.createElement(WeatherApp),
