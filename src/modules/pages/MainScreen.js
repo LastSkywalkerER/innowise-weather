@@ -5,38 +5,42 @@ import HoursForecastData from '../components/HoursForecastData';
 import DaysForecastData from '../components/DaysForecastData';
 
 import darkSunImage from '../../static/weather-img/dark-sun.png';
-import sunImage from '../../static/weather-img/sun.png';
+// import sunImage from '../../static/weather-img/sun.png';
 import moonImage from '../../static/weather-img/moon.png';
+import daylightLineImage from '../../static/weather-img/daylight-line.png';
 import cloud1Image from '../../static/weather-img/cloud1.png';
 import cloud2Image from '../../static/weather-img/cloud2.png';
-import humidityIcon from '../../static/weather-img/icons/humidity.png';
-import pressureIcon from '../../static/weather-img/icons/pressure.png';
-import windIcon from '../../static/weather-img/icons/wind.png';
-import cloudyIcon from '../../static/weather-img/icons/cloudy.png';
-import shinyIcon from '../../static/weather-img/icons/shiny.png';
-import cloudsIcon from '../../static/weather-img/icons/clouds.png';
+import humidityIcon from '../../static/weather-img/icons/humidity.svg';
+import pressureIcon from '../../static/weather-img/icons/pressure.svg';
+import windIcon from '../../static/weather-img/icons/wind.svg';
+import sunIcon from '../../static/weather-img/icons/sun.svg';
+import cloudyIcon from '../../static/weather-img/icons/cloudy.svg';
+import shinyIcon from '../../static/weather-img/icons/shiny.svg';
+import cloudsIcon from '../../static/weather-img/icons/clouds.svg';
 // Skyact.createElement('', null, [])
+
+import '../../styles/main-screen.sass';
 
 export default class MainScreen extends Skyact.SkyactComponent {
   createHoursForecast() {
     const forecast = [{
-      time: '10 AM',
+      time: '10\u00A0AM',
       icon: cloudyIcon,
       temp: '19°',
     }, {
-      time: '11 AM',
+      time: '11\u00A0AM',
       icon: shinyIcon,
       temp: '22°',
     }, {
-      time: '12 AM',
+      time: '12\u00A0AM',
       icon: cloudyIcon,
       temp: '21°',
     }, {
-      time: '01 PM',
+      time: '01\u00A0PM',
       icon: cloudsIcon,
       temp: '18°',
     }, {
-      time: '02 PM',
+      time: '02\u00A0PM',
       icon: cloudsIcon,
       temp: '17°',
     }];
@@ -65,12 +69,12 @@ export default class MainScreen extends Skyact.SkyactComponent {
 
   render() {
     return Skyact.createElement('div', {
-      className: 'main-screen',
+      className: 'main-screen container',
     }, [
       Skyact.createElement('div', {
         className: 'main-data',
       }, [
-        Skyact.createElement('span', null, ['San Francisco']),
+        Skyact.createElement('span', null, ['San\u00A0Francisco']),
         Skyact.createElement('h1', null, ['18°']),
         Skyact.createElement('span', {
           className: 'weather-phenomenon',
@@ -80,12 +84,15 @@ export default class MainScreen extends Skyact.SkyactComponent {
         className: 'main-weather-image',
       }, [
         Skyact.createElement('img', {
+          className: 'sun',
           src: darkSunImage,
         }),
         Skyact.createElement('img', {
+          className: 'cloud1',
           src: cloud1Image,
         }),
         Skyact.createElement('img', {
+          className: 'cloud2',
           src: cloud2Image,
         }),
       ]),
@@ -102,7 +109,7 @@ export default class MainScreen extends Skyact.SkyactComponent {
           Skyact.createElement('img', {
             src: pressureIcon,
           }),
-          Skyact.createElement('span', null, '0.533 mBar'),
+          Skyact.createElement('span', null, '0.533\u00A0mBar'),
         ]),
         Skyact.createElement('div', null, [
           Skyact.createElement('img', {
@@ -114,18 +121,26 @@ export default class MainScreen extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'daylight-block',
       }, [
-        Skyact.createElement('div', null, [
+        Skyact.createElement('div', {
+          className: 'sunrise',
+        }, [
           Skyact.createElement('img', {
-            src: sunImage,
+            src: sunIcon,
           }),
-          Skyact.createElement('span', null, '07:00 AM'),
+          Skyact.createElement('span', null, '07:00\u00A0AM'),
         ]),
-        Skyact.createElement('div', null, [
+        Skyact.createElement('div', {
+          className: 'sunset',
+        }, [
+          Skyact.createElement('span', null, '06:00\u00A0PM'),
           Skyact.createElement('img', {
             src: moonImage,
           }),
-          Skyact.createElement('span', null, '06:00 PM'),
         ]),
+        Skyact.createElement('img', {
+          className: 'daylight-line',
+          src: daylightLineImage,
+        }),
       ]),
       Skyact.createElement('div', {
         className: 'hours-forecast-block',

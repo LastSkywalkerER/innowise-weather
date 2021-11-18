@@ -15,8 +15,10 @@ export default class DaysForecastData extends Skyact.SkyactComponent {
       Skyact.createElement('img', {
         src: icon,
       }),
-      Skyact.createElement('span', null, [temp1]),
-      Skyact.createElement('span', null, [temp2]),
+      Skyact.createElement('div', null, [
+        Skyact.createElement('span', null, [temp1]),
+        Skyact.createElement('span', null, [temp2]),
+      ]),
     ]);
   }
 }
