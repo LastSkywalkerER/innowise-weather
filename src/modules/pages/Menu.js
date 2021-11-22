@@ -5,8 +5,8 @@ import Skyact from '../Skyact';
 
 import '../../styles/main-screen.sass';
 
-export default class CitySaved extends Skyact.SkyactComponent {
+export default class Menu extends Skyact.SkyactComponent {
   render() {
-    return Skyact.createElement('div', null, ['city-saved']);
+    return Skyact.createElement('div', null, ['menu']);
   }
 }

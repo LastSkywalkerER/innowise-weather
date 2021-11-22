@@ -2,8 +2,12 @@
 import Skyact from './Skyact';
 import MainScreen from './pages/MainScreen';
 import CitySaved from './pages/CitySaved';
+import Menu from './pages/Menu';
 import Navigation from './components/Navigation';
 import store from './Skyax/store';
+import {
+  pages,
+} from './Skyax/constants';
 
 export default class WeatherApp extends Skyact.SkyactComponent {
   constructor(props) {
@@ -25,11 +29,14 @@ export default class WeatherApp extends Skyact.SkyactComponent {
     let Page = MainScreen;
 
     switch (this.state.page) {
-      case 'main-screen':
+      case pages.mainScreen:
         Page = MainScreen;
         break;
-      case 'city-saved':
+      case pages.citySaved:
         Page = CitySaved;
+        break;
+      case pages.menu:
+        Page = Menu;
         break;
       default:
         Page = MainScreen;

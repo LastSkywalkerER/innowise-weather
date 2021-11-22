@@ -1,6 +1,9 @@
 import createStore from '.';
 import rootReducer from './rootReducer';
+import {
+  pages,
+} from './constants';
 
 export default createStore(rootReducer, {
-  page: 'main-screen',
+  page: pages.mainScreen,
 });
