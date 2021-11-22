@@ -1,0 +1,63 @@
+.city-saved
+  background: var(--city-saved-color)
+  position: relative
+  width: 100vw
+  height: 100vh
+  overflow: hidden
+  color: var(--text-color)
+  & .search-block
+    margin-top: 66px
+    margin-bottom: 32px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    &>input
+      background: transparent
+      border: none
+      width: 80%
+      &::placeholder
+        color: var(--serach-color)
+  & .cities-wrapper
+    display: grid
+    grid-template-columns: repeat(2 , 150px)
+    grid-auto-rows: 150px
+    grid-gap: 15px
+  & .city-block
+    padding: 15px
+    left: 30px
+    top: 118px
+    background: var(--city-block-color)
+    border-radius: 17.3077px
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    &>div:first-child
+      display: flex
+      justify-content: space-between
+      &>h3
+        font-size: 34px
+        line-height: 41px
+        margin: 0
+    &>div:nth-child(2)
+      display: flex
+      flex-direction: column
+      &>span:first-child
+        font-size: 14px
+        line-height: 17px
+      &>span:last-child
+        font-size: 12px
+        line-height: 14px
+        color: var(--country-color)
+    &>div:last-child
+      display: flex
+      align-items: center
+      justify-content: space-between
+      &>div
+        display: flex
+        align-items: center
+        justify-content: space-between
+        & span
+          margin-left: 2px
+          font-weight: 600
+          font-size: 12px
+          line-height: 14px

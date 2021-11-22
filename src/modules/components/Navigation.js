@@ -10,7 +10,7 @@ import menu from '../../static/weather-img/icons/menu.svg';
 import menuActive from '../../static/weather-img/icons/menu-active.svg';
 import store from '../Skyax/store';
 import {
-  pages
+  pages,
 } from '../Skyax/constants';
 import {
   setMainScreen,

@@ -3,6 +3,8 @@
 import Skyact from '../Skyact';
 import HoursForecastData from '../components/HoursForecastData';
 import DaysForecastData from '../components/DaysForecastData';
+import Humidity from '../components/Humidity';
+import Wind from '../components/Wind';
 
 import darkSunImage from '../../static/weather-img/dark-sun.png';
 // import sunImage from '../../static/weather-img/sun.png';
@@ -10,9 +12,7 @@ import moonImage from '../../static/weather-img/moon.png';
 import daylightLineImage from '../../static/weather-img/daylight-line.png';
 import cloud1Image from '../../static/weather-img/cloud1.png';
 import cloud2Image from '../../static/weather-img/cloud2.png';
-import humidityIcon from '../../static/weather-img/icons/humidity.svg';
 import pressureIcon from '../../static/weather-img/icons/pressure.svg';
-import windIcon from '../../static/weather-img/icons/wind.svg';
 import sunIcon from '../../static/weather-img/icons/sun.svg';
 import cloudyIcon from '../../static/weather-img/icons/cloudy.svg';
 import shinyIcon from '../../static/weather-img/icons/shiny.svg';
@@ -22,49 +22,47 @@ import cloudsIcon from '../../static/weather-img/icons/clouds.svg';
 import '../../styles/main-screen.sass';
 
 export default class MainScreen extends Skyact.SkyactComponent {
-  createHoursForecast() {
-    const forecast = [{
-      time: '10\u00A0AM',
-      icon: cloudyIcon,
-      temp: '19°',
-    }, {
-      time: '11\u00A0AM',
-      icon: shinyIcon,
-      temp: '22°',
-    }, {
-      time: '12\u00A0AM',
-      icon: cloudyIcon,
-      temp: '21°',
-    }, {
-      time: '01\u00A0PM',
-      icon: cloudsIcon,
-      temp: '18°',
-    }, {
-      time: '02\u00A0PM',
-      icon: cloudsIcon,
-      temp: '17°',
-    }];
-    return forecast;
-  }
-
-  createDaysForecast() {
-    const forecast = [{
-      day: 'Tuesday',
-      icon: cloudyIcon,
-      temp1: '19°',
-      temp2: '15°',
-    }, {
-      day: 'Wednesday',
-      icon: cloudyIcon,
-      temp1: '19°',
-      temp2: '15°',
-    }, {
-      day: 'Thursday',
-      icon: shinyIcon,
-      temp1: '18°',
-      temp2: '14°',
-    }];
-    return forecast;
+  constructor(props) {
+    super(props);
+    this.state = {
+      forecastHours: [{
+        time: '10\u00A0AM',
+        icon: cloudyIcon,
+        temp: '19°',
+      }, {
+        time: '11\u00A0AM',
+        icon: shinyIcon,
+        temp: '22°',
+      }, {
+        time: '12\u00A0AM',
+        icon: cloudyIcon,
+        temp: '21°',
+      }, {
+        time: '01\u00A0PM',
+        icon: cloudsIcon,
+        temp: '18°',
+      }, {
+        time: '02\u00A0PM',
+        icon: cloudsIcon,
+        temp: '17°',
+      }],
+      forecastDays: [{
+        day: 'Tuesday',
+        icon: cloudyIcon,
+        temp1: '19°',
+        temp2: '15°',
+      }, {
+        day: 'Wednesday',
+        icon: cloudyIcon,
+        temp1: '19°',
+        temp2: '15°',
+      }, {
+        day: 'Thursday',
+        icon: shinyIcon,
+        temp1: '18°',
+        temp2: '14°',
+      }],
+    };
   }
 
   render() {
@@ -99,24 +97,18 @@ export default class MainScreen extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'data-string',
       }, [
-        Skyact.createElement('div', null, [
-          Skyact.createElement('img', {
-            src: humidityIcon,
-          }),
-          Skyact.createElement('span', null, '13%'),
-        ]),
+        Skyact.createElement(Humidity, {
+          humidity: '13%',
+        }),
         Skyact.createElement('div', null, [
           Skyact.createElement('img', {
             src: pressureIcon,
           }),
           Skyact.createElement('span', null, '0.533\u00A0mBar'),
         ]),
-        Skyact.createElement('div', null, [
-          Skyact.createElement('img', {
-            src: windIcon,
-          }),
-          Skyact.createElement('span', null, '13%'),
-        ]),
+        Skyact.createElement(Wind, {
+          wind: '9km/h',
+        }),
       ]),
       Skyact.createElement('div', {
         className: 'daylight-block',
@@ -148,12 +140,12 @@ export default class MainScreen extends Skyact.SkyactComponent {
         Skyact.createElement('h3', null, ['Today']),
         Skyact.createElement('div', {
             className: 'hours-forecast-wrapper',
-          }, this.createHoursForecast()
+          }, this.state.forecastHours
           .map((forecast) => Skyact.createElement(HoursForecastData, forecast))),
       ]),
       Skyact.createElement('div', {
           className: 'days-forecast-wrapper',
-        }, this.createDaysForecast()
+        }, this.state.forecastDays
         .map((forecast) => Skyact.createElement(DaysForecastData, forecast))),
     ]);
   }
