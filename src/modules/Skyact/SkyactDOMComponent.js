@@ -27,7 +27,6 @@ export default class SkyactDOMComponent {
   }
 
   mountComponent(container) {
-    this.container = container;
     const domElement = document.createElement(this.currentElement.type);
     const props = this.currentElement.props;
     let children = this.currentElement.props.children;
@@ -38,6 +37,8 @@ export default class SkyactDOMComponent {
     Object.keys(props).forEach((propName) => {
       if (propName === 'className' && typeof props[propName] === 'string') {
         props[propName].split(' ').forEach((string) => domElement.classList.add(string));
+      } else if (propName === 'onClick' && typeof props[propName] === 'function') {
+        domElement.addEventListener('click', props[propName]);
       } else if (propName !== 'children') {
         domElement.setAttribute(propName, props[propName]);
       }
@@ -62,7 +63,9 @@ export default class SkyactDOMComponent {
       return SkyactReconciler.mountComponent(child, domElement);
     });
 
-    container.appendChild(domElement);
+    if (container) {
+      container.appendChild(domElement);
+    }
 
     this.hostNode = domElement;
     return domElement;
@@ -90,6 +93,9 @@ export default class SkyactDOMComponent {
       if (propName === 'className' && lastProps[propName] !== nextProps[propName]) {
         node.removeAttribute('class');
         // eslint-disable-next-line no-prototype-builtins
+      } else if (propName === 'onClick' && lastProps[propName] !== nextProps[propName]) {
+        node.removeEventListener('click', lastProps[propName]);
+        // eslint-disable-next-line no-prototype-builtins
       } else if (propName !== 'children' && !nextProps.hasOwnProperty(propName)) {
         node.removeAttribute(propName);
       }
@@ -97,6 +103,8 @@ export default class SkyactDOMComponent {
     Object.keys(nextProps).forEach((propName) => {
       if (propName === 'className' && typeof nextProps[propName] === 'string') {
         nextProps[propName].split(' ').forEach((string) => node.classList.add(string));
+      } else if (propName === 'onClick' && typeof nextProps[propName] === 'function') {
+        node.addEventListener('click', nextProps[propName]);
       } else if (propName !== 'children') {
         node.setAttribute(propName, nextProps[propName]);
       }
@@ -123,7 +131,7 @@ export default class SkyactDOMComponent {
 
       if (!prevChild) {
         const nextChid = instantiateSkyactComponent(nextChildren[i]);
-        const node = SkyactReconciler.mountComponent(nextChid, this.container);
+        const node = SkyactReconciler.mountComponent(nextChid);
 
         opertionQueue.push({
           type: 'ADD',
@@ -139,15 +147,15 @@ export default class SkyactDOMComponent {
         const prevNode = prevChild.getHostNode();
         prevChild.unmount();
 
-        const nextChid = instantiateSkyactComponent(nextChildren[i]);
-        const nextNode = SkyactReconciler.mountComponent(nextChid, this.container);
+        const nextChild = instantiateSkyactComponent(nextChildren[i]);
+        const nextNode = SkyactReconciler.mountComponent(nextChild);
 
         opertionQueue.push({
           type: 'REPLACE',
           prevNode,
           nextNode,
         });
-        nextRenderedChildren.push(nextChid);
+        nextRenderedChildren.push(nextChild);
         continue;
       }
 
@@ -207,12 +215,12 @@ export default class SkyactDOMComponent {
 
   unmount() {
     this.renderedChildren.forEach((child) => {
-      if (typeof child !== 'string') {
+      if (child && typeof child !== 'string') {
         child.unmount();
       }
     });
     // eslint-disable-next-line no-param-reassign
 
-    this.container.innerHTML = '';
+    this.hostNode.innerHTML = '';
   }
 }
