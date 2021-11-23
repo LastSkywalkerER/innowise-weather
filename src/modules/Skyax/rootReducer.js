@@ -1,13 +1,25 @@
 import {
   CHANGE_PAGE,
+  SET_CURRENT_WEATHER,
+  LOADING,
 } from './constants';
 
 export default function rootReducer(state, action) {
   switch (action.type) {
     case CHANGE_PAGE:
       return {
-        ...action,
+        ...state,
         page: action.payload,
+      };
+    case SET_CURRENT_WEATHER:
+      return {
+        ...state,
+        currentWeather: action.payload,
+      };
+    case LOADING:
+      return {
+        ...state,
+        weatherLoading: action.payload,
       };
     default:
       break;

@@ -5,6 +5,8 @@ import HoursForecastData from '../components/HoursForecastData';
 import DaysForecastData from '../components/DaysForecastData';
 import Humidity from '../components/Humidity';
 import Wind from '../components/Wind';
+import store from '../Skyax/store';
+import MainWeather from '../MainWeather';
 
 import darkSunImage from '../../static/weather-img/dark-sun.png';
 // import sunImage from '../../static/weather-img/sun.png';
@@ -25,6 +27,8 @@ export default class MainScreen extends Skyact.SkyactComponent {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
+      currentWeather: new MainWeather(),
       forecastHours: [{
         time: '10\u00A0AM',
         icon: cloudyIcon,
@@ -65,18 +69,46 @@ export default class MainScreen extends Skyact.SkyactComponent {
     };
   }
 
+  componentDidMount() {
+    this.state.currentWeather.getMainData();
+    store.subscribe((state) => {
+      this.setState({
+        loading: state.weatherLoading,
+      });
+    });
+  }
+
   render() {
+    let currentCity = 0;
+    let currentTemp = 0;
+    let currentCond = 0;
+    let currentHumidity = 0;
+    let currentPressure = 0;
+    let currentWind = 0;
+    let currentSunrise = 0;
+    let currentSunset = 0;
+    if (!this.state.loading) {
+      currentCity = this.state.currentWeather.city;
+      currentTemp = this.state.currentWeather.mainData.temp;
+      currentCond = this.state.currentWeather.mainData.condition;
+      currentHumidity = this.state.currentWeather.mainData.humidity;
+      currentPressure = this.state.currentWeather.mainData.pressure;
+      currentWind = this.state.currentWeather.mainData.wind;
+      currentSunrise = this.state.currentWeather.mainData.sunrise;
+      currentSunset = this.state.currentWeather.mainData.sunset;
+    }
+
     return Skyact.createElement('div', {
       className: 'main-screen container',
     }, [
       Skyact.createElement('div', {
         className: 'main-data',
       }, [
-        Skyact.createElement('span', null, ['San\u00A0Francisco']),
-        Skyact.createElement('h1', null, ['18°']),
+        Skyact.createElement('span', null, [`${currentCity}`]),
+        Skyact.createElement('h1', null, [`${currentTemp}°`]),
         Skyact.createElement('span', {
           className: 'weather-phenomenon',
-        }, ['Cloudy']),
+        }, [`${currentCond}`]),
       ]),
       Skyact.createElement('div', {
         className: 'main-weather-image',
@@ -98,16 +130,16 @@ export default class MainScreen extends Skyact.SkyactComponent {
         className: 'data-string',
       }, [
         Skyact.createElement(Humidity, {
-          humidity: '13%',
+          humidity: `${currentHumidity}%`,
         }),
         Skyact.createElement('div', null, [
           Skyact.createElement('img', {
             src: pressureIcon,
           }),
-          Skyact.createElement('span', null, '0.533\u00A0mBar'),
+          Skyact.createElement('span', null, `${currentPressure}\u00A0mBar`),
         ]),
         Skyact.createElement(Wind, {
-          wind: '9km/h',
+          wind: `${currentWind}km/h`,
         }),
       ]),
       Skyact.createElement('div', {
@@ -119,12 +151,12 @@ export default class MainScreen extends Skyact.SkyactComponent {
           Skyact.createElement('img', {
             src: sunIcon,
           }),
-          Skyact.createElement('span', null, '07:00\u00A0AM'),
+          Skyact.createElement('span', null, `${currentSunrise}`),
         ]),
         Skyact.createElement('div', {
           className: 'sunset',
         }, [
-          Skyact.createElement('span', null, '06:00\u00A0PM'),
+          Skyact.createElement('span', null, `${currentSunset}`),
           Skyact.createElement('img', {
             src: moonImage,
           }),
