@@ -83,9 +83,12 @@ export default class MainScreen extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'main-weather-image',
       }, [
-        Skyact.createElement('img', {
+        // Skyact.createElement('img', {
+        //   className: 'sun',
+        //   src: darkSunImage,
+        // }),
+        Skyact.createElement('div', {
           className: 'sun',
-          src: darkSunImage,
         }),
         Skyact.createElement('img', {
           className: 'cloud1',

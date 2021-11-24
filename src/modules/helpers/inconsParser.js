@@ -6,11 +6,11 @@ import cloudsIcon from '../../static/weather-img/icons/clouds.svg';
 export default function (type) {
   switch (type) {
     case 'broken clouds':
-      return cloudyIcon;
+      return cloudsIcon;
     case 'overcast clouds':
-      return shinyIcon;
+      return cloudyIcon;
     case 'snow':
-      return sunIcon;
+      return shinyIcon;
     case 'light rain':
       return sunIcon;
     default:

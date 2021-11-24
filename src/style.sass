@@ -10,23 +10,14 @@
   --serach-color: #8F9CA5
   --city-block-color: #152C39
   --country-color: #7B94A7
-
-// @font-face
-//   font-family: "Lato"
-//   src: url("./static/fonts/Lato-Regular.ttf") format("truetype")
-//   src: url("./static/fonts/Lato-Regular.ttf?#iefix") format("truetype")
-//   font-style: normal
-//   font-weight: regular
+  --sun-color: radial-gradient(110.01% 103.2% at 8.71% 0.06%, #00C2FF 0%, #FF4BF8 100%)
+  --sun-shadow: 0px 0px 77px rgba(47, 119, 159, 0.85)
 
 body
   font-family: 'Lato', Manrope, 'sans-serif'
 
   *, *::before, *::after
     box-sizing: border-box
-
-.icon
-  width: 50px
-  height: 50px
 
 input
   box-shadow: none
@@ -57,21 +48,6 @@ button
   cursor: pointer
   transition: 200ms
 
-.text-field
-  width: 100%
-  &__input
-    display: block
-    width: 100%
-    padding: 0.375rem 1rem
-    font-family: inherit
-    font-size: 1rem
-    font-weight: 400
-    line-height: 1.5
-    color: #212529
-    border: none
-    text-align: right
-    letter-spacing: 1px
-
 .container
   padding-left: 30px
   padding-right: 30px
@@ -86,3 +62,8 @@ button
   font-weight: 300
   font-size: 12px
   opacity: 0.5
+
+.sun
+  border-radius: 50%
+  background: var(--sun-color)
+  box-shadow: var(--sun-shadow)
