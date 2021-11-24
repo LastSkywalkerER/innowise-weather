@@ -19,9 +19,11 @@ export default class WeatherApp extends Skyact.SkyactComponent {
 
   componentDidMount() {
     store.subscribe((state) => {
-      this.setState({
-        page: state.page,
-      });
+      if (state.page !== this.state.page) {
+        this.setState({
+          page: state.page,
+        });
+      }
     });
   }
 
@@ -42,6 +44,7 @@ export default class WeatherApp extends Skyact.SkyactComponent {
         Page = MainScreen;
         break;
     }
+
     return Skyact.createElement('div', null,
       [
         Skyact.createElement('a', {

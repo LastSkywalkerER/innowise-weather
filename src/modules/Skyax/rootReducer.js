@@ -19,7 +19,7 @@ export default function rootReducer(state, action) {
     case LOADING:
       return {
         ...state,
-        weatherLoading: action.payload,
+        ...action.payload,
       };
     default:
       break;

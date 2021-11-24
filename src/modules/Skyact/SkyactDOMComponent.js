@@ -188,10 +188,20 @@ export default class SkyactDOMComponent {
           this.hostNode.appendChild(operation.node);
           break;
         case 'REPLACE':
-          this.hostNode.replaceChild(operation.nextNode, operation.prevNode);
+          try {
+            this.hostNode.replaceChild(operation.nextNode, operation.prevNode);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
           break;
         case 'REMOVE':
-          this.hostNode.removeChild(operation.node);
+          try {
+            this.hostNode.removeChild(operation.node);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
           break;
         default:
           break;

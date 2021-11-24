@@ -30,9 +30,11 @@ export default class Navigation extends Skyact.SkyactComponent {
 
   componentDidMount() {
     store.subscribe((state) => {
-      this.setState({
-        activePage: state.page,
-      });
+      if (this.state.activePage !== state.page) {
+        this.setState({
+          activePage: state.page,
+        });
+      }
     });
   }
 

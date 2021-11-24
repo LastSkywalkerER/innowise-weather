@@ -33,16 +33,20 @@ export function setWeatherInCurrentCity(weather) {
   };
 }
 
-export function upLoading() {
+export function upLoading(loader) {
   return {
     type: LOADING,
-    payload: true,
+    payload: {
+      [loader]: true,
+    },
   };
 }
 
-export function downLoading() {
+export function downLoading(loader) {
   return {
     type: LOADING,
-    payload: false,
+    payload: {
+      [loader]: false,
+    },
   };
 }
