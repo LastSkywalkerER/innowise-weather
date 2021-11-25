@@ -1,16 +1,16 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
 import {
-  weatherApiKey,
+  openweathermapApiKey,
   WEATHER_LOADING,
   FORECAST_LOADING,
-} from './Skyax/constants';
-import store from './Skyax/store';
+} from '../Skyax/constants';
+import store from '../Skyax/store';
 import {
   downLoading,
   upLoading,
-} from './Skyax/actions';
-import inconsParser from './helpers/inconsParser';
+} from '../Skyax/actions';
+import inconsParser from './inconsParser';
 
 export default class MainWeather {
   constructor() {
@@ -27,7 +27,7 @@ export default class MainWeather {
   }
 
   getResponseFromApi(action, callback) {
-    fetch(`${this.callBody}${action}?q=${this.city}&appid=${weatherApiKey}`)
+    fetch(`${this.callBody}${action}?q=${this.city}&appid=${openweathermapApiKey}`)
       // eslint-disable-next-line consistent-return
       .then((response) => {
         if (response.status === 200) {
@@ -131,7 +131,6 @@ export default class MainWeather {
       }
 
       store.dispatch(downLoading(FORECAST_LOADING));
-      console.log(data);
     });
   }
 }

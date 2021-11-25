@@ -2,6 +2,12 @@
 /* eslint-disable class-methods-use-this */
 import Skyact from '../Skyact';
 import CityBlock from '../components/CityBlock';
+import CityListItem from '../components/CityListItem';
+import CitySearch from '../helpers/CitySearch';
+import {
+  CITIES_LOADING,
+} from '../Skyax/constants';
+import store from '../Skyax/store';
 
 import search from '../../static/weather-img/icons/search.svg';
 import edit from '../../static/weather-img/icons/edit.svg';
@@ -17,6 +23,7 @@ import '../../styles/city-saved.sass';
 export default class CitySaved extends Skyact.SkyactComponent {
   constructor(props) {
     super(props);
+    this.citiesData = new CitySearch();
     this.state = {
       cityes: [{
         city: 'Austin',
@@ -61,10 +68,25 @@ export default class CitySaved extends Skyact.SkyactComponent {
         humidity: '17%',
         wind: '7km/h',
       }],
+      cities: [{
+        name: 'Minsk',
+      }],
     };
   }
 
+  componentDidMount() {
+    store.subscribe((state) => {
+      if (!state[CITIES_LOADING]) {
+        this.setState({
+          [CITIES_LOADING]: state[CITIES_LOADING],
+        });
+      }
+    });
+  }
+
   render() {
+    console.log(this.citiesData.cityList);
+
     return Skyact.createElement('div', {
       className: 'city-saved container',
     }, [Skyact.createElement('div', {
@@ -75,7 +97,17 @@ export default class CitySaved extends Skyact.SkyactComponent {
         }),
         Skyact.createElement('input', {
           placeHolder: 'Search',
+          list: 'citiesList',
+          onInput: (event) => {
+            this.citiesData.getCitiesList(event.target.value);
+          },
         }),
+        Skyact.createElement('datalist', {
+          id: 'citiesList',
+        }, this.citiesData.cityList.map((city) => Skyact.createElement(CityListItem, city))),
+        // Skyact.createElement('div', null, [
+
+        // ]),
         Skyact.createElement('img', {
           src: edit,
         }),

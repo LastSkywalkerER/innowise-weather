@@ -3,6 +3,7 @@ export const SET_CURRENT_WEATHER = 'SET_CURRENT_WEATHER';
 export const LOADING = 'LOADING';
 export const WEATHER_LOADING = 'weatherLoading';
 export const FORECAST_LOADING = 'forecastLoading';
+export const CITIES_LOADING = 'citiesLoading';
 
 export const pages = {
   mainScreen: 'main-screen',
@@ -10,4 +11,5 @@ export const pages = {
   menu: 'menu',
 };
 
-export const weatherApiKey = '1cf8c586f371f2d934bbb5a494c19a3d';
+export const openweathermapApiKey = '1cf8c586f371f2d934bbb5a494c19a3d';
+export const weathermapApiKey = 'dfe27f8f81ec43999ad122520211511';

@@ -6,11 +6,13 @@ import DaysForecastData from '../components/DaysForecastData';
 import Humidity from '../components/Humidity';
 import Wind from '../components/Wind';
 import store from '../Skyax/store';
-import MainWeather from '../MainWeather';
+import {
+  WEATHER_LOADING,
+  FORECAST_LOADING,
+} from '../Skyax/constants';
+import MainWeather from '../helpers/MainWeather';
 import Loader from '../components/Loader';
 
-import darkSunImage from '../../static/weather-img/dark-sun.png';
-// import sunImage from '../../static/weather-img/sun.png';
 import moonImage from '../../static/weather-img/moon.png';
 import daylightLineImage from '../../static/weather-img/daylight-line.png';
 import cloud1Image from '../../static/weather-img/cloud1.png';
@@ -35,14 +37,16 @@ export default class MainScreen extends Skyact.SkyactComponent {
     this.state.currentWeather.getMainData();
     this.state.currentWeather.getForecast();
     store.subscribe((state) => {
-      if (this.state.weatherLoading !== state.weatherLoading && state.weatherLoading === false) {
+      if (this.state[WEATHER_LOADING] !== state[WEATHER_LOADING] &&
+        state[WEATHER_LOADING] === false) {
         this.setState({
-          weatherLoading: state.weatherLoading,
+          [WEATHER_LOADING]: state[WEATHER_LOADING],
         });
       }
-      if (this.state.forecastLoading !== state.forecastLoading && state.forecastLoading === false) {
+      if (this.state[FORECAST_LOADING] !== state[FORECAST_LOADING] &&
+        state[FORECAST_LOADING] === false) {
         this.setState({
-          forecastLoading: state.forecastLoading,
+          [FORECAST_LOADING]: state[FORECAST_LOADING],
         });
       }
     });
@@ -57,7 +61,7 @@ export default class MainScreen extends Skyact.SkyactComponent {
     let currentWind = 0;
     let currentSunrise = 0;
     let currentSunset = 0;
-    if (!this.state.weatherLoading) {
+    if (!this.state[WEATHER_LOADING]) {
       currentCity = this.state.currentWeather.city;
       currentTemp = this.state.currentWeather.mainData.temp;
       currentCond = this.state.currentWeather.mainData.condition;
@@ -145,13 +149,13 @@ export default class MainScreen extends Skyact.SkyactComponent {
         Skyact.createElement('h3', null, ['Today']),
         Skyact.createElement('div', {
             className: 'hours-forecast-wrapper',
-          }, this.state.forecastLoading ? [Skyact.createElement(Loader, null, [])] :
+          }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
           this.state.currentWeather.hourlyForecast
           .map((forecast) => Skyact.createElement(HoursForecastData, forecast))),
       ]),
       Skyact.createElement('div', {
           className: 'days-forecast-wrapper',
-        }, this.state.forecastLoading ? [Skyact.createElement(Loader, null, [])] :
+        }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
         this.state.currentWeather.daylyForecast
         .map((forecast) => Skyact.createElement(DaysForecastData, forecast))),
     ]);

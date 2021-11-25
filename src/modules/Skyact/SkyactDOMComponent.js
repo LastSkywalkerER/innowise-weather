@@ -39,6 +39,10 @@ export default class SkyactDOMComponent {
         props[propName].split(' ').forEach((string) => domElement.classList.add(string));
       } else if (propName === 'onClick' && typeof props[propName] === 'function') {
         domElement.addEventListener('click', props[propName]);
+      } else if (propName === 'onChange' && typeof props[propName] === 'function') {
+        domElement.addEventListener('change', props[propName]);
+      } else if (propName === 'onInput' && typeof props[propName] === 'function') {
+        domElement.addEventListener('input', props[propName]);
       } else if (propName !== 'children') {
         domElement.setAttribute(propName, props[propName]);
       }
@@ -96,6 +100,12 @@ export default class SkyactDOMComponent {
       } else if (propName === 'onClick' && lastProps[propName] !== nextProps[propName]) {
         node.removeEventListener('click', lastProps[propName]);
         // eslint-disable-next-line no-prototype-builtins
+      } else if (propName === 'onChange' && lastProps[propName] !== nextProps[propName]) {
+        node.removeEventListener('change', lastProps[propName]);
+        // eslint-disable-next-line no-prototype-builtins
+      } else if (propName === 'onInput' && lastProps[propName] !== nextProps[propName]) {
+        node.removeEventListener('input', lastProps[propName]);
+        // eslint-disable-next-line no-prototype-builtins
       } else if (propName !== 'children' && !nextProps.hasOwnProperty(propName)) {
         node.removeAttribute(propName);
       }
@@ -105,6 +115,10 @@ export default class SkyactDOMComponent {
         nextProps[propName].split(' ').forEach((string) => node.classList.add(string));
       } else if (propName === 'onClick' && typeof nextProps[propName] === 'function') {
         node.addEventListener('click', nextProps[propName]);
+      } else if (propName === 'onChange' && typeof nextProps[propName] === 'function') {
+        node.addEventListener('change', nextProps[propName]);
+      } else if (propName === 'onInput' && typeof nextProps[propName] === 'function') {
+        node.addEventListener('input', nextProps[propName]);
       } else if (propName !== 'children') {
         node.setAttribute(propName, nextProps[propName]);
       }
