@@ -5,6 +5,7 @@ import {
 } from './constants';
 
 export default createStore(rootReducer, {
+  currentUrlPath: '/',
   page: pages.mainScreen,
   currentCity: 'Minsk',
   citySaved: [],
