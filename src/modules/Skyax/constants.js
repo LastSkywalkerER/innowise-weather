@@ -1,6 +1,12 @@
 export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const SET_CURRENT_WEATHER = 'SET_CURRENT_WEATHER';
 export const LOADING = 'LOADING';
+export const UPDATE_LIST_CITY = 'UPDATE_LIST_CITY';
+export const ADD_SAVED_CITY = 'ADD_SAVED_CITY';
+export const CLEAR_SAVED_CITY = 'CLEAR_SAVED_CITY';
+export const SET_INPUT = 'SET_INPUT';
+export const SET_INPUT_VALUE = 'SET_INPUT_VALUE';
+
 export const WEATHER_LOADING = 'weatherLoading';
 export const FORECAST_LOADING = 'forecastLoading';
 export const CITIES_LOADING = 'citiesLoading';

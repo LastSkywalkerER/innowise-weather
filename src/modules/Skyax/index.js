@@ -2,16 +2,20 @@ export default function createStore(rootReducer, initialValue) {
   let state = rootReducer(initialValue, {
     type: '___INIT___',
   });
-  const subscribers = [];
+  let subscribers = [];
 
   return {
     // action === {type: 'ACTION'}
     dispatch(action) {
+      console.log(action.type);
       state = rootReducer(state, action);
       subscribers.forEach((sub) => sub(state));
     },
     subscribe(callback) {
       subscribers.push(callback);
+    },
+    unsubscribe(callback) {
+      subscribers = subscribers.filter((item) => item !== callback);
     },
     getState() {
       return state;

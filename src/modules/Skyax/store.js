@@ -7,6 +7,9 @@ import {
 export default createStore(rootReducer, {
   page: pages.mainScreen,
   currentCity: 'Minsk',
-  forecastLoading: true,
+  citySaved: [],
+  cityList: [],
+  input: null,
   weatherLoading: true,
+  forecastLoading: true,
 });

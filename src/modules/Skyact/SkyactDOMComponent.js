@@ -43,6 +43,8 @@ export default class SkyactDOMComponent {
         domElement.addEventListener('change', props[propName]);
       } else if (propName === 'onInput' && typeof props[propName] === 'function') {
         domElement.addEventListener('input', props[propName]);
+      } else if (propName === 'getRef' && typeof props[propName] === 'function') {
+        props[propName](domElement);
       } else if (propName !== 'children') {
         domElement.setAttribute(propName, props[propName]);
       }
@@ -119,6 +121,8 @@ export default class SkyactDOMComponent {
         node.addEventListener('change', nextProps[propName]);
       } else if (propName === 'onInput' && typeof nextProps[propName] === 'function') {
         node.addEventListener('input', nextProps[propName]);
+      } else if (propName === 'getRef' && typeof nextProps[propName] === 'function') {
+        nextProps[propName](node);
       } else if (propName !== 'children') {
         node.setAttribute(propName, nextProps[propName]);
       }

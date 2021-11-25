@@ -29,13 +29,19 @@ export default class Navigation extends Skyact.SkyactComponent {
   }
 
   componentDidMount() {
-    store.subscribe((state) => {
+    this.subscribtion = (state) => {
       if (this.state.activePage !== state.page) {
         this.setState({
           activePage: state.page,
         });
       }
-    });
+    };
+
+    store.subscribe(this.subscribtion);
+  }
+
+  componentWillUnmount() {
+    store.unsubscribe(this.subscribtion);
   }
 
   render() {

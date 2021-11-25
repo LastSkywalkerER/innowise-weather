@@ -36,7 +36,8 @@ export default class MainScreen extends Skyact.SkyactComponent {
   componentDidMount() {
     this.state.currentWeather.getMainData();
     this.state.currentWeather.getForecast();
-    store.subscribe((state) => {
+
+    this.subscribtion = (state) => {
       if (this.state[WEATHER_LOADING] !== state[WEATHER_LOADING] &&
         state[WEATHER_LOADING] === false) {
         this.setState({
@@ -49,7 +50,13 @@ export default class MainScreen extends Skyact.SkyactComponent {
           [FORECAST_LOADING]: state[FORECAST_LOADING],
         });
       }
-    });
+    };
+
+    store.subscribe(this.subscribtion);
+  }
+
+  componentWillUnmount() {
+    store.unsubscribe(this.subscribtion);
   }
 
   render() {
