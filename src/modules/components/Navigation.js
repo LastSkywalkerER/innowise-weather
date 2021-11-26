@@ -8,12 +8,6 @@ import citySaved from '../../static/weather-img/icons/city-saved.svg';
 import citySavedActive from '../../static/weather-img/icons/city-saved-active.svg';
 import menu from '../../static/weather-img/icons/menu.svg';
 import menuActive from '../../static/weather-img/icons/menu-active.svg';
-import store from '../Skyax/store';
-import {
-  setMainScreen,
-  setCitySaved,
-  setMenu,
-} from '../Skyax/actions';
 import router, {
   routes,
 } from '../router/routes';
@@ -57,7 +51,6 @@ export default class Navigation extends Skyact.SkyactComponent {
         src: mainScreenIcon,
         onClick: () => {
           router.navigate(routes.mainScreen);
-          store.dispatch(setMainScreen());
         },
       }),
       Skyact.createElement('img', {
@@ -67,14 +60,12 @@ export default class Navigation extends Skyact.SkyactComponent {
         src: citySavedIcon,
         onClick: () => {
           router.navigate(routes.citySaved);
-          store.dispatch(setCitySaved());
         },
       }),
       Skyact.createElement('img', {
         src: menuIcon,
         onClick: () => {
           router.navigate(routes.menu);
-          store.dispatch(setMenu());
         },
       }),
     ]);
