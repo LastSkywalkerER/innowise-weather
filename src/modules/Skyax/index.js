@@ -7,7 +7,7 @@ export default function createStore(rootReducer, initialValue) {
   return {
     // action === {type: 'ACTION'}
     dispatch(action) {
-      console.log(action.type);
+      // console.log(action.type);
       state = rootReducer(state, action);
       subscribers.forEach((sub) => sub(state));
     },

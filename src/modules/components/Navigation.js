@@ -10,13 +10,13 @@ import menu from '../../static/weather-img/icons/menu.svg';
 import menuActive from '../../static/weather-img/icons/menu-active.svg';
 import store from '../Skyax/store';
 import {
-  pages,
-} from '../Skyax/constants';
-import {
   setMainScreen,
   setCitySaved,
   setMenu,
 } from '../Skyax/actions';
+import router, {
+  routes,
+} from '../router/routes';
 
 import '../../styles/navigation.sass';
 
@@ -24,49 +24,58 @@ export default class Navigation extends Skyact.SkyactComponent {
   constructor(props) {
     super(props);
     this.state = {
-      activePage: store.getState().page,
+      activePage: router.getCurrentPath(),
     };
   }
 
   componentDidMount() {
-    this.subscribtion = (state) => {
-      if (this.state.activePage !== state.page) {
+    this.subscribtion = (path) => {
+      if (this.state.activePage !== path) {
         this.setState({
-          activePage: state.page,
+          activePage: path,
         });
       }
     };
 
-    store.subscribe(this.subscribtion);
+    router.subscribe(this.subscribtion);
   }
 
   componentWillUnmount() {
-    store.unsubscribe(this.subscribtion);
+    router.unsubscribe(this.subscribtion);
   }
 
   render() {
-    const mainScreenIcon = this.state.activePage !== pages.mainScreen ?
+    const mainScreenIcon = this.state.activePage !== routes.mainScreen ?
       mainScreen : mainScreenActive;
-    const citySavedIcon = this.state.activePage !== pages.citySaved ?
+    const citySavedIcon = this.state.activePage !== routes.citySaved ?
       citySaved : citySavedActive;
-    const menuIcon = this.state.activePage !== pages.menu ?
+    const menuIcon = this.state.activePage !== routes.menu ?
       menu : menuActive;
     return Skyact.createElement('div', {
       className: 'navigation',
     }, [Skyact.createElement('img', {
         src: mainScreenIcon,
-        onClick: () => store.dispatch(setMainScreen()),
+        onClick: () => {
+          router.navigate(routes.mainScreen);
+          store.dispatch(setMainScreen());
+        },
       }),
       Skyact.createElement('img', {
         src: map,
       }),
       Skyact.createElement('img', {
         src: citySavedIcon,
-        onClick: () => store.dispatch(setCitySaved()),
+        onClick: () => {
+          router.navigate(routes.citySaved);
+          store.dispatch(setCitySaved());
+        },
       }),
       Skyact.createElement('img', {
         src: menuIcon,
-        onClick: () => store.dispatch(setMenu()),
+        onClick: () => {
+          router.navigate(routes.menu);
+          store.dispatch(setMenu());
+        },
       }),
     ]);
   }
