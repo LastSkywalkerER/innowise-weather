@@ -3,12 +3,15 @@ export default class Router {
   constructor(options) {
     this.routes = [];
     this.mode = null;
-    this.root = '/';
     this.current = '';
 
     this.subscribers = [];
 
     this.mode = window.history.pushState ? 'history' : 'hash';
+
+    this.root = '';
+    this.root = this.getFragment() === '' ? '' : `/${this.getFragment()}`;
+
     if (options) {
       if (options.mode) {
         this.mode = options.mode;
@@ -74,7 +77,7 @@ export default class Router {
     if (this.mode === 'history') {
       fragment = this.clearSlashes(decodeURI(window.location.pathname + window.location.search));
       fragment = fragment.replace(/\?(.*)$/, '');
-      fragment = this.root !== '/' ? fragment.replace(this.root, '') : fragment;
+      fragment = this.root !== '' ? fragment.replace(this.clearSlashes(this.root), '') : fragment;
     } else {
       const match = window.location.href.match(/#(.*)$/);
       fragment = match ? match[1] : '';
@@ -93,7 +96,7 @@ export default class Router {
   navigate(path = '') {
     let newPath;
     if (this.mode === 'history') {
-      newPath = this.root + this.clearSlashes(path);
+      newPath = `${this.root}/${this.clearSlashes(path)}`;
       window.history.pushState(null, null, newPath);
     } else {
       newPath = `${window.location.href.replace(/#(.*)$/, '')}#${path}`;
