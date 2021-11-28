@@ -3,9 +3,7 @@ import MainScreen from '../pages/MainScreen';
 import CitySaved from '../pages/CitySaved';
 import Menu from '../pages/Menu';
 
-const router = new Router({
-  mode: 'hash',
-});
+const router = new Router();
 router.init();
 
 export const routes = {
