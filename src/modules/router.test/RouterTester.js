@@ -2,7 +2,6 @@ import {
   describe,
   test,
   expect,
-  jest,
 } from '@jest/globals';
 
 export default class RouterTester {
