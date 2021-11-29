@@ -1,10 +1,11 @@
 /* eslint-disable class-methods-use-this */
 import Skyact from './Skyact';
 import Navigation from './components/Navigation';
-import router, {
+import {
   switcher,
   routes,
 } from './router/routes';
+import router from './appInitial';
 
 export default class WeatherApp extends Skyact.SkyactComponent {
   constructor(props) {

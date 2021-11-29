@@ -1,10 +1,6 @@
-import Router from '.';
 import MainScreen from '../pages/MainScreen';
 import CitySaved from '../pages/CitySaved';
 import Menu from '../pages/Menu';
-
-const router = new Router();
-router.init();
 
 export const routes = {
   mainScreen: 'main-screen',
@@ -22,5 +18,3 @@ export const switcher = [{
   path: routes.menu,
   Component: Menu,
 }];
-
-export default router;
