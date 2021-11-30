@@ -1,25 +1,21 @@
 import {
-  CHANGE_PAGE,
-  SET_CURRENT_WEATHER,
+  SET_CURRENT_CITY,
   LOADING,
   UPDATE_LIST_CITY,
   ADD_SAVED_CITY,
+  REMOVE_SAVED_CITY,
   CLEAR_SAVED_CITY,
+  EDIT_CITIES,
   SET_INPUT,
   SET_INPUT_VALUE,
 } from './constants';
 
 export default function rootReducer(state, action) {
   switch (action.type) {
-    case CHANGE_PAGE:
+    case SET_CURRENT_CITY:
       return {
         ...state,
-        page: action.payload,
-      };
-    case SET_CURRENT_WEATHER:
-      return {
-        ...state,
-        currentWeather: action.payload,
+        currentCity: action.payload,
       };
     case LOADING:
       return {
@@ -31,15 +27,37 @@ export default function rootReducer(state, action) {
         ...state,
         cityList: [...action.payload],
       };
-    case ADD_SAVED_CITY:
+    case ADD_SAVED_CITY: {
+      const newList = [...state.citySaved, action.payload];
+      localStorage.setItem('citySaved', JSON.stringify(newList));
       return {
         ...state,
-        citySaved: [...state.citySaved, action.payload],
+        citySaved: newList,
       };
+    }
+    case REMOVE_SAVED_CITY: {
+      const newList = state.citySaved.filter((city, i) => {
+        if (i === action.payload) {
+          return false;
+        }
+        return true;
+      });
+      localStorage.setItem('citySaved', JSON.stringify(newList));
+      return {
+        ...state,
+        citySaved: newList,
+      };
+    }
     case CLEAR_SAVED_CITY:
+      localStorage.setItem('citySaved', JSON.stringify([]));
       return {
         ...state,
         citySaved: [],
+      };
+    case EDIT_CITIES:
+      return {
+        ...state,
+        editCities: action.payload,
       };
     case SET_INPUT_VALUE:
       // eslint-disable-next-line no-param-reassign

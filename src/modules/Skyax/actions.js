@@ -1,40 +1,19 @@
 import {
-  CHANGE_PAGE,
-  SET_CURRENT_WEATHER,
+  SET_CURRENT_CITY,
   LOADING,
   UPDATE_LIST_CITY,
   ADD_SAVED_CITY,
+  REMOVE_SAVED_CITY,
   CLEAR_SAVED_CITY,
+  EDIT_CITIES,
   SET_INPUT,
   SET_INPUT_VALUE,
-  pages,
 } from './constants';
 
-export function setMainScreen() {
+export function setCurrentCity(city) {
   return {
-    type: CHANGE_PAGE,
-    payload: pages.mainScreen,
-  };
-}
-
-export function setCitySaved() {
-  return {
-    type: CHANGE_PAGE,
-    payload: pages.citySaved,
-  };
-}
-
-export function setMenu() {
-  return {
-    type: CHANGE_PAGE,
-    payload: pages.menu,
-  };
-}
-
-export function setWeatherInCurrentCity(weather) {
-  return {
-    type: SET_CURRENT_WEATHER,
-    payload: weather,
+    type: SET_CURRENT_CITY,
+    payload: city,
   };
 }
 
@@ -70,9 +49,23 @@ export function addCitySaved(name) {
   };
 }
 
+export function removeCitySaved(index) {
+  return {
+    type: REMOVE_SAVED_CITY,
+    payload: index,
+  };
+}
+
 export function clearCitySaved() {
   return {
     type: CLEAR_SAVED_CITY,
+  };
+}
+
+export function editCities(toggler) {
+  return {
+    type: EDIT_CITIES,
+    payload: toggler,
   };
 }
 

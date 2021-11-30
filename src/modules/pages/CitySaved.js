@@ -9,10 +9,12 @@ import store from '../Skyax/store';
 import {
   setInput,
   setInputValue,
+  editCities,
 } from '../Skyax/actions';
 
 import search from '../../static/weather-img/icons/search.svg';
 import edit from '../../static/weather-img/icons/edit.svg';
+import editActive from '../../static/weather-img/icons/edit-active.svg';
 // Skyact.createElement('', null, [])
 
 import '../../styles/city-saved.sass';
@@ -22,13 +24,14 @@ export default class CitySaved extends Skyact.SkyactComponent {
     super(props);
     this.citiesData = new CitySearch();
     this.state = {
-      cityList: [],
-      citySaved: [],
+      cityList: store.getState().cityList,
+      citySaved: store.getState().citySaved,
+      editCities: store.getState().editCities,
     };
   }
 
   isArraysEqual(array1, array2) {
-    return !array1.find((item, i) => array1[i] !== array2[i]);
+    return !array1.find((item, i) => array1[i] !== array2[i]) && array1.length === array2.length;
   }
 
   componentDidMount() {
@@ -38,9 +41,14 @@ export default class CitySaved extends Skyact.SkyactComponent {
           cityList: state.cityList,
         });
       }
-      if (!this.isArraysEqual(state.citySaved, this.state.citySaved) && state.citySaved.length) {
+      if (!this.isArraysEqual(state.citySaved, this.state.citySaved)) {
         this.setState({
           citySaved: state.citySaved,
+        });
+      }
+      if (state.editCities !== this.setState.editCities) {
+        this.setState({
+          editCities: state.editCities,
         });
       }
     };
@@ -50,8 +58,11 @@ export default class CitySaved extends Skyact.SkyactComponent {
     this.citiesData.downLoadCitiesData();
   }
 
+  componentDidUpdate() {}
+
   componentWillUnmount() {
     store.unsubscribe(this.subscription);
+    store.dispatch(editCities(false));
   }
 
   render() {
@@ -80,7 +91,10 @@ export default class CitySaved extends Skyact.SkyactComponent {
           },
           this.state.cityList.map((city) => Skyact.createElement(CityListItem, city))),
         Skyact.createElement('img', {
-          src: edit,
+          src: this.state.editCities ? editActive : edit,
+          onClick: () => {
+            store.dispatch(editCities(!this.state.editCities));
+          },
         }),
       ]),
       Skyact.createElement('div', {
@@ -88,7 +102,13 @@ export default class CitySaved extends Skyact.SkyactComponent {
         }, this.state.citySaved.length === this.citiesData.dataList.length &&
         this.citiesData.dataList.length ? this.state.citySaved.map(
           // eslint-disable-next-line function-paren-newline
-          (city, i) => Skyact.createElement(CityBlock, this.citiesData.dataList[i])) : []),
+          (city, i) => Skyact.createElement(CityBlock, {
+            ...this.citiesData.dataList[i],
+            index: i,
+            editable: this.state.editCities,
+            updater: this.citiesData.downLoadCitiesData
+              .bind(this.citiesData, true),
+          })) : []),
     ]);
   }
 }

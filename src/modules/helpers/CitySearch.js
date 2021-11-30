@@ -72,7 +72,10 @@ export default class MainWeather {
     });
   }
 
-  downLoadCitiesData() {
+  downLoadCitiesData(update) {
+    if (update) {
+      this.savedCities = store.getState().citySaved;
+    }
     const action = '/current.json';
     store.dispatch(clearCitySaved());
     this.dataList = [];

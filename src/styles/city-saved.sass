@@ -25,13 +25,26 @@
     grid-gap: 15px
   & .city-block
     padding: 15px
-    left: 30px
-    top: 118px
+    position: relative
     background: var(--city-block-color)
     border-radius: 17.3077px
     display: flex
     flex-direction: column
     justify-content: space-between
+    &.editable::after
+      content: '×'
+      color: var(--icon-active-color)
+      position: absolute
+      right: 0
+      top: 0
+      width: 25px
+      height: 25px
+      display: flex
+      align-items: center
+      justify-content: center
+      font-weight: 700
+      font-size: 25px
+      line-height: 100%
     &>div:first-child
       display: flex
       justify-content: space-between
