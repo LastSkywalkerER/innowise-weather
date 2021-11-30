@@ -4,6 +4,15 @@
 import Skyact from '../Skyact';
 import DataString from '../components/DataString';
 import Settings from '../components/Settings';
+import {
+  settings,
+} from '../config';
+import MainWeather from '../helpers/MainWeather';
+import store from '../Skyax/store';
+import {
+  LOCATION_WEATHER_LOADING,
+  CHANGE_SETTINGS,
+} from '../Skyax/constants';
 // Skyact.createElement('', null, [])
 
 import geo from '../../static/weather-img/icons/geo.svg';
@@ -13,40 +22,53 @@ import '../../styles/menu.sass';
 export default class Menu extends Skyact.SkyactComponent {
   constructor(props) {
     super(props);
-    this.settings = [{
-        title: 'Temperature',
-        options: [{
-            name: 'Celcius',
-          },
-          {
-            name: 'Fahrenheit',
-          },
-        ],
-      },
-      {
-        title: 'Wind Speed',
-        options: [{
-            name: 'km/h',
-          },
-          {
-            name: 'ml/h',
-          },
-        ],
-      },
-      {
-        title: 'Theme',
-        options: [{
-            name: 'Dark',
-          },
-          {
-            name: 'Light',
-          },
-        ],
-      },
-    ];
+    this.weather = new MainWeather();
+    this.state = {
+      [LOCATION_WEATHER_LOADING]: true,
+    };
+  }
+
+  componentDidMount() {
+    this.subscribtion = (state, type) => {
+      if (this.state[LOCATION_WEATHER_LOADING] !== state[LOCATION_WEATHER_LOADING] &&
+        state[LOCATION_WEATHER_LOADING] === false) {
+        this.setState({
+          [LOCATION_WEATHER_LOADING]: state[LOCATION_WEATHER_LOADING],
+        });
+      }
+      if (type === CHANGE_SETTINGS) {
+        this.weather.getWeatherByLocation();
+        this.setState({
+          [LOCATION_WEATHER_LOADING]: true,
+        });
+      }
+    };
+
+    store.subscribe(this.subscribtion);
+
+    this.weather.getWeatherByLocation();
+  }
+
+  componentWillUnmount() {
+    store.unsubscribe(this.subscribtion);
   }
 
   render() {
+    let location = 'nowhere';
+    let condition = 'maybe';
+    let temperature = '0';
+    let humidity = '0';
+    let pressure = '0';
+    let wind = '0';
+    if (!this.state[LOCATION_WEATHER_LOADING]) {
+      location = this.weather.locationWeather.location;
+      condition = this.weather.locationWeather.condition;
+      temperature = this.weather.locationWeather.temp;
+      humidity = this.weather.locationWeather.humidity;
+      pressure = this.weather.locationWeather.pressure;
+      wind = this.weather.locationWeather.wind;
+    }
+
     return Skyact.createElement('div', {
       className: 'menu container',
     }, [
@@ -58,7 +80,7 @@ export default class Menu extends Skyact.SkyactComponent {
         }, []),
         Skyact.createElement('h5', null, ['Your Location Now']),
       ]),
-      Skyact.createElement('h4', null, ['San Fransisco, California, USA']),
+      Skyact.createElement('h4', null, location),
       Skyact.createElement('div', {
         className: 'weather-image',
       }, [
@@ -68,18 +90,18 @@ export default class Menu extends Skyact.SkyactComponent {
       ]),
       Skyact.createElement('span', {
         className: 'weather-phenomenon',
-      }, ['Moonlight']),
+      }, condition),
       Skyact.createElement('h3', {
         className: 'temperature',
-      }, ['20°C']),
+      }, temperature),
       Skyact.createElement(DataString, {
-        currentHumidity: '7%',
-        currentPressure: '0.533 mBar',
-        currentWind: '5km/h',
+        currentHumidity: humidity,
+        currentPressure: pressure,
+        currentWind: wind,
       }),
       Skyact.createElement('div', {
         className: 'settings',
-      }, this.settings.map((setting) => Skyact.createElement(Settings, setting))),
+      }, settings.map((setting) => Skyact.createElement(Settings, setting))),
     ]);
   }
 }

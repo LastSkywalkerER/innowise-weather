@@ -1,9 +1,11 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
 import {
   openweathermapApiKey,
   WEATHER_LOADING,
   FORECAST_LOADING,
+  LOCATION_WEATHER_LOADING,
 } from '../Skyax/constants';
 import store from '../Skyax/store';
 import {
@@ -21,13 +23,15 @@ export default class MainWeather {
     this.mainData = {};
     this.hourlyForecast = [];
     this.daylyForecast = [];
+    this.locationWeather = {};
     this.callBody = 'https://api.openweathermap.org/data/2.5';
     store.dispatch(upLoading(WEATHER_LOADING));
     store.dispatch(upLoading(FORECAST_LOADING));
+    store.dispatch(upLoading(LOCATION_WEATHER_LOADING));
   }
 
-  getResponseFromApi(action, callback) {
-    fetch(`${this.callBody}${action}?q=${this.city}&appid=${openweathermapApiKey}`)
+  getResponseFromApi(action, callback, city = this.city) {
+    fetch(`${this.callBody}${action}?q=${city}&appid=${openweathermapApiKey}`)
       // eslint-disable-next-line consistent-return
       .then((response) => {
         if (response.status === 200) {
@@ -51,6 +55,32 @@ export default class MainWeather {
 
   kelvinToCelsium(kelvin) {
     return `${Math.round(kelvin - 273.15, 0)}°`;
+  }
+
+  kelvinToFahrenheit(kelvin) {
+    return `${Math.round((((kelvin - 273.15) * 9) / 5) + 32, 0)}°`;
+  }
+
+  getTemp(kelvin) {
+    const settings = store.getState().settings;
+    if (settings.Temperature === 'Celcius') {
+      return this.kelvinToCelsium(kelvin);
+    }
+    if (settings.Temperature === 'Fahrenheit') {
+      return this.kelvinToFahrenheit(kelvin);
+    }
+    return 'nothing';
+  }
+
+  getWind(wind) {
+    const settings = store.getState().settings;
+    if (settings['Wind Speed'] === 'km/h') {
+      return `${wind}\u00A0km/h`;
+    }
+    if (settings['Wind Speed'] === 'mp/h') {
+      return `${Math.round(wind / 1.609, 2)}\u00A0mp/h`;
+    }
+    return 'nothing';
   }
 
   parseDay(day) {
@@ -77,11 +107,11 @@ export default class MainWeather {
   getMainData() {
     const action = '/weather';
     this.getResponseFromApi(action, (data) => {
-      this.mainData.temp = this.kelvinToCelsium(data.main.temp);
+      this.mainData.temp = this.getTemp(data.main.temp);
       this.mainData.condition = this.stringCorrection(data.weather[0].description);
       this.mainData.humidity = `${data.main.humidity}%`;
       this.mainData.pressure = `${data.main.pressure / 10}\u00A0MPa`;
-      this.mainData.wind = `${data.wind.speed}\u00A0km/h`;
+      this.mainData.wind = this.getWind(data.wind.speed);
       this.mainData.sunrise = this.hoursCorrection(data.sys.sunrise);
       this.mainData.sunset = this.hoursCorrection(data.sys.sunset);
       // store.dispatch(setWeatherInCurrentCity(this));
@@ -97,7 +127,7 @@ export default class MainWeather {
         this.hourlyForecast.push({
           time: this.hoursCorrection(data.list[i].dt),
           icon: inconsParser(data.list[i].weather[0].description),
-          temp: this.kelvinToCelsium(data.list[i].main.temp),
+          temp: this.getTemp(data.list[i].main.temp),
         });
       }
 
@@ -123,8 +153,8 @@ export default class MainWeather {
         this.daylyForecast.push({
           day: this.parseDay(data.list[i + 4].dt),
           icon: inconsParser(data.list[i + 4].weather[0].description),
-          temp1: this.kelvinToCelsium(maxKelvTemp),
-          temp2: this.kelvinToCelsium(minKelvTemp),
+          temp1: this.getTemp(maxKelvTemp),
+          temp2: this.getTemp(minKelvTemp),
         });
         i += 8;
         day++;
@@ -132,5 +162,21 @@ export default class MainWeather {
 
       store.dispatch(downLoading(FORECAST_LOADING));
     });
+  }
+
+  getWeatherByLocation() {
+    const action = '/weather';
+    const location = store.getState().location;
+
+    this.getResponseFromApi(action, (data) => {
+      this.locationWeather.location = location;
+      this.locationWeather.condition = this.stringCorrection(data.weather[0].description);
+      this.locationWeather.temp = this.getTemp(data.main.temp);
+      this.locationWeather.humidity = `${data.main.humidity}%`;
+      this.locationWeather.pressure = `${data.main.pressure / 10}\u00A0MPa`;
+      this.locationWeather.wind = this.getWind(data.wind.speed);
+
+      store.dispatch(downLoading(LOCATION_WEATHER_LOADING));
+    }, location);
   }
 }

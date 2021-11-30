@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
 import {
@@ -19,6 +20,7 @@ export default class MainWeather {
     this.cityList = [];
     this.savedCities = store.getState().citySaved;
     this.dataList = [];
+    this.locationWeather = {};
     this.callBody = 'https://api.weatherapi.com/v1';
   }
 
@@ -50,8 +52,26 @@ export default class MainWeather {
     });
   }
 
-  kelvinToCelsium(kelvin) {
-    return `${Math.round(kelvin - 273.15, 0)}°`;
+  getTemp(celsium, fahrenheit) {
+    const settings = store.getState().settings;
+    if (settings.Temperature === 'Celcius') {
+      return `${celsium}°`;
+    }
+    if (settings.Temperature === 'Fahrenheit') {
+      return `${Math.round(fahrenheit, 0)}°`;
+    }
+    return 'nothing';
+  }
+
+  getWind(kmh, mph) {
+    const settings = store.getState().settings;
+    if (settings['Wind Speed'] === 'km/h') {
+      return `${kmh}\u00A0km/h`;
+    }
+    if (settings['Wind Speed'] === 'mp/h') {
+      return `${mph}\u00A0mp/h`;
+    }
+    return 'nothing';
   }
 
   getCitiesList() {
@@ -84,10 +104,10 @@ export default class MainWeather {
         this.dataList.push({
           city: data.location.name,
           country: data.location.country,
-          temp: `${data.current.temp_c}°`,
+          temp: this.getTemp(data.current.temp_c, data.current.temp_f),
           icon: iconsRoundedParser(data.current.condition.text),
           humidity: `${data.current.humidity}%`,
-          wind: `${data.current.wind_kph}\u00A0km/h`,
+          wind: this.getWind(data.current.wind_kph, data.current.wind_mph),
         });
         store.dispatch(addCitySaved(city));
       }));

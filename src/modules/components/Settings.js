@@ -1,5 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import Skyact from '../Skyact';
+import store from '../Skyax/store';
+import {
+  changeSettings,
+} from '../Skyax/actions';
 
 export default class Settings extends Skyact.SkyactComponent {
   render() {
@@ -7,6 +11,7 @@ export default class Settings extends Skyact.SkyactComponent {
       title,
       options,
     } = this.props;
+
     return Skyact.createElement('div', {
       className: 'settings-item',
     }, [
@@ -15,9 +20,21 @@ export default class Settings extends Skyact.SkyactComponent {
       }, title),
       Skyact.createElement('select', {
         className: 'settings-select',
-      }, options.map((option) => Skyact.createElement('option', {
-        value: option.name,
-      }, option.name))),
+        onChange: (event) => {
+          store.dispatch(changeSettings({
+            [title]: event.target.value,
+          }));
+        },
+      }, options.map((option) => {
+        const optionProps = store.getState().settings[title] === option.name ? {
+          value: option.name,
+          selected: true,
+        } : {
+          value: option.name,
+        };
+
+        return Skyact.createElement('option', optionProps, option.name);
+      })),
     ]);
   }
 }

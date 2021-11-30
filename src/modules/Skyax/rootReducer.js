@@ -8,6 +8,7 @@ import {
   EDIT_CITIES,
   SET_INPUT,
   SET_INPUT_VALUE,
+  CHANGE_SETTINGS,
 } from './constants';
 
 export default function rootReducer(state, action) {
@@ -69,6 +70,18 @@ export default function rootReducer(state, action) {
       return {
         ...state,
         input: action.payload,
+      };
+    case CHANGE_SETTINGS:
+      localStorage.setItem('settings', JSON.stringify({
+        ...state.settings,
+        ...action.payload,
+      }));
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          ...action.payload,
+        },
       };
     default:
       return {
