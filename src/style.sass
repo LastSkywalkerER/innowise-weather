@@ -14,12 +14,30 @@
   --sun-shadow: 0px 0px 77px rgba(47, 119, 159, 0.85)
   --icon-color: #6693AB
   --icon-active-color: #FF73B9
+  --geo-title-color: #869DA4
+  --setting-color: #5F89A9
 
 body
   font-family: 'Lato', Manrope, 'sans-serif'
 
   *, *::before, *::after
     box-sizing: border-box
+
+select
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  margin: 0
+  padding: 0
+  border: 0
+  font-size: 100%
+  font: inherit
+  vertical-align: baseline
+  background: transparent
+  color: inherit
+  &:focus
+    border: none
+    outline: none
 
 input
   box-shadow: none
@@ -69,3 +87,25 @@ button
   border-radius: 50%
   background: var(--sun-color)
   box-shadow: var(--sun-shadow)
+
+.weather-phenomenon
+  font-size: 16px
+  line-height: 19px
+  text-align: center
+  padding: 7px 14px
+  background-color: var(--phenomenon-color)
+  border-radius: 40px
+  height: min-content
+  width: min-content
+
+.data-string
+  margin-top: 61px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  & div
+    display: flex
+    align-items: center
+    justify-content: space-between
+    & img
+      margin-right: 15px

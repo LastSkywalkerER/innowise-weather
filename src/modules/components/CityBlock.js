@@ -7,10 +7,8 @@ import {
   removeCitySaved,
   setCurrentCity,
 } from '../Skyax/actions';
-import router from '../appInitial';
-import {
-  routes,
-} from '../router/routes';
+import router from '../router/routerInitial';
+import routes from '../router/routes';
 
 export default class cityBlock extends Skyact.SkyactComponent {
   render() {

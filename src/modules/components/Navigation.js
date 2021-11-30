@@ -8,10 +8,8 @@ import citySaved from '../../static/weather-img/icons/city-saved.svg';
 import citySavedActive from '../../static/weather-img/icons/city-saved-active.svg';
 import menu from '../../static/weather-img/icons/menu.svg';
 import menuActive from '../../static/weather-img/icons/menu-active.svg';
-import {
-  routes,
-} from '../router/routes';
-import router from '../appInitial';
+import routes from '../router/routes';
+import router from '../router/routerInitial';
 
 import '../../styles/navigation.sass';
 

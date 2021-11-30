@@ -3,8 +3,7 @@
 import Skyact from '../Skyact';
 import HoursForecastData from '../components/HoursForecastData';
 import DaysForecastData from '../components/DaysForecastData';
-import Humidity from '../components/Humidity';
-import Wind from '../components/Wind';
+import DataString from '../components/DataString';
 import store from '../Skyax/store';
 import {
   WEATHER_LOADING,
@@ -17,7 +16,6 @@ import moonImage from '../../static/weather-img/moon.png';
 import daylightLineImage from '../../static/weather-img/daylight-line.png';
 import cloud1Image from '../../static/weather-img/cloud1.png';
 import cloud2Image from '../../static/weather-img/cloud2.png';
-import pressureIcon from '../../static/weather-img/icons/pressure.svg';
 import sunIcon from '../../static/weather-img/icons/sun.svg';
 // Skyact.createElement('', null, [])
 
@@ -110,22 +108,11 @@ export default class MainScreen extends Skyact.SkyactComponent {
           src: cloud2Image,
         }),
       ]),
-      Skyact.createElement('div', {
-        className: 'data-string',
-      }, [
-        Skyact.createElement(Humidity, {
-          humidity: `${currentHumidity}`,
-        }),
-        Skyact.createElement('div', null, [
-          Skyact.createElement('img', {
-            src: pressureIcon,
-          }),
-          Skyact.createElement('span', null, `${currentPressure}`),
-        ]),
-        Skyact.createElement(Wind, {
-          wind: `${currentWind}`,
-        }),
-      ]),
+      Skyact.createElement(DataString, {
+        currentHumidity,
+        currentPressure,
+        currentWind,
+      }),
       Skyact.createElement('div', {
         className: 'daylight-block',
       }, [
