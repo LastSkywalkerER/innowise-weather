@@ -1,4 +1,5 @@
 export const SET_CURRENT_CITY = 'SET_CURRENT_CITY';
+export const SET_LOCATION = 'SET_LOCATION';
 export const LOADING = 'LOADING';
 export const UPDATE_LIST_CITY = 'UPDATE_LIST_CITY';
 export const ADD_SAVED_CITY = 'ADD_SAVED_CITY';

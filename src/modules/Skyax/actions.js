@@ -1,5 +1,6 @@
 import {
   SET_CURRENT_CITY,
+  SET_LOCATION,
   LOADING,
   UPDATE_LIST_CITY,
   ADD_SAVED_CITY,
@@ -14,6 +15,13 @@ import {
 export function setCurrentCity(city) {
   return {
     type: SET_CURRENT_CITY,
+    payload: city,
+  };
+}
+
+export function setLocation(city) {
+  return {
+    type: SET_LOCATION,
     payload: city,
   };
 }

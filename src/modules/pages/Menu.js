@@ -54,7 +54,8 @@ export default class Menu extends Skyact.SkyactComponent {
   }
 
   render() {
-    let location = 'nowhere';
+    // eslint-disable-next-line prefer-destructuring
+    let location = store.getState().location;
     let condition = 'maybe';
     let temperature = '0';
     let humidity = '0';

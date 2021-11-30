@@ -1,5 +1,6 @@
 import {
   SET_CURRENT_CITY,
+  SET_LOCATION,
   LOADING,
   UPDATE_LIST_CITY,
   ADD_SAVED_CITY,
@@ -17,6 +18,11 @@ export default function rootReducer(state, action) {
       return {
         ...state,
         currentCity: action.payload,
+      };
+    case SET_LOCATION:
+      return {
+        ...state,
+        location: action.payload,
       };
     case LOADING:
       return {

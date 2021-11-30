@@ -6,5 +6,7 @@ import WeatherApp from './modules/WeatherApp';
 import './styles/normalize.css';
 import './style.sass';
 
-Skyact.render(Skyact.createElement(WeatherApp),
-  document.getElementById('root'));
+window.addEventListener('load', () => {
+  Skyact.render(Skyact.createElement(WeatherApp),
+    document.getElementById('root'));
+});
