@@ -34,11 +34,18 @@ export default class MainWeather {
     fetch(`${this.callBody}${action}?q=${city}&appid=${openweathermapApiKey}`)
       // eslint-disable-next-line consistent-return
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status >= 200 && response.status < 300) {
           return response.json();
         }
+        return Promise.reject(new Error(response.status));
       })
-      .then((data) => callback(data));
+      .then((data) => callback(data))
+      .catch((e) => {
+        if (e.message === '404') {
+          throw e;
+        }
+        console.warn(e);
+      });
   }
 
   stringCorrection(string) {

@@ -4,7 +4,7 @@ import Navigation from './components/Navigation';
 import routes from './router/routes';
 import switcher from './router/switcher';
 import router from './router/routerInitial';
-import geolocation from './geolocation';
+import './geolocation';
 
 export default class WeatherApp extends Skyact.SkyactComponent {
   constructor(props) {

@@ -5,8 +5,8 @@ import {
 } from '../config';
 
 export default createStore(rootReducer, {
-  currentCity: 'Minsk',
-  location: 'Minsk',
+  currentCity: 'No location',
+  location: 'No location',
   citySaved: localStorage.getItem('citySaved') ? JSON.parse(localStorage.getItem('citySaved')) : [],
   cityList: [],
   editCities: false,
