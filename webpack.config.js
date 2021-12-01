@@ -52,7 +52,7 @@ module.exports = {
   optimization: optimization(),
   mode: 'development',
   devServer: {
-    open: 'D:\\Program Files\\Mozilla Firefox\\firefox.exe',
+    open: '/',
     port: 8080,
     hot: true,
   },
