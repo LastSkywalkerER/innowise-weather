@@ -7,8 +7,10 @@ import {
   setLocation,
 } from './Skyax/actions';
 
+// https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${openweathermapApiKey}
+
 const getCityByCoords = (coords, callback) => {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${openweathermapApiKey}`)
+  fetch(`https://geocode-maps.yandex.ru/1.x?apikey=547fe294-cefc-42fa-bb6a-0e41d05b4faa&geocode=${coords.longitude},${coords.latitude}&format=json&lang=en_US`)
     // eslint-disable-next-line consistent-return
     .then((response) => {
       if (response.status === 200) {
@@ -20,8 +22,9 @@ const getCityByCoords = (coords, callback) => {
 
 const geoSuccess = (position) => {
   getCityByCoords(position.coords, (data) => {
-    store.dispatch(setLocation(`${data.name}, ${data.sys.country}`));
-    store.dispatch(setCurrentCity(`${data.name}, ${data.sys.country}`));
+    const locationName = data.response.GeoObjectCollection.featureMember[0].GeoObject.description.split(', ');
+    store.dispatch(setLocation(`${locationName[locationName.length - 2]}, ${locationName[locationName.length - 1]}`));
+    store.dispatch(setCurrentCity(`${locationName[locationName.length - 2]}, ${locationName[locationName.length - 1]}`));
   });
 };
 const geoError = (error) => {
@@ -33,4 +36,8 @@ const geoError = (error) => {
   //   3: timed out
 };
 
-navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {
+  maximumAge: 0,
+  timeout: 5000,
+  enableHighAccuracy: true,
+});
