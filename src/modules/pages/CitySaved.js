@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 /* eslint-disable indent */
 /* eslint-disable class-methods-use-this */
 import Skyact from '../Skyact';
@@ -67,7 +68,9 @@ export default class CitySaved extends Skyact.SkyactComponent {
 
   render() {
     return Skyact.createElement('div', {
-      className: 'city-saved container',
+      className: 'city-saved',
+    }, [Skyact.createElement('div', {
+      className: 'container',
     }, [Skyact.createElement('div', {
         className: 'search-block',
       }, [
@@ -109,6 +112,6 @@ export default class CitySaved extends Skyact.SkyactComponent {
             updater: this.citiesData.downLoadCitiesData
               .bind(this.citiesData, true),
           })) : []),
-    ]);
+    ])]);
   }
 }

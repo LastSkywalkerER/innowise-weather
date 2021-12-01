@@ -78,7 +78,9 @@ export default class MainScreen extends Skyact.SkyactComponent {
     }
 
     return Skyact.createElement('div', {
-      className: 'main-screen container',
+      className: 'main-screen',
+    }, [Skyact.createElement('div', {
+      className: 'container',
     }, [
       Skyact.createElement('div', {
         className: 'main-data',
@@ -152,6 +154,6 @@ export default class MainScreen extends Skyact.SkyactComponent {
         }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
         this.state.currentWeather.daylyForecast
         .map((forecast) => Skyact.createElement(DaysForecastData, forecast))),
-    ]);
+    ])]);
   }
 }

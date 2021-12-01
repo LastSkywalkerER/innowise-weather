@@ -71,7 +71,9 @@ export default class Menu extends Skyact.SkyactComponent {
     }
 
     return Skyact.createElement('div', {
-      className: 'menu container',
+      className: 'menu',
+    }, Skyact.createElement('div', {
+      className: 'container',
     }, [
       Skyact.createElement('div', {
         className: 'location-title',
@@ -103,6 +105,6 @@ export default class Menu extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'settings',
       }, settings.map((setting) => Skyact.createElement(Settings, setting))),
-    ]);
+    ]));
   }
 }
