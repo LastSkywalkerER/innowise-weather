@@ -107,5 +107,14 @@
 
 @media (min-width: 990px)
   .city-saved
+    & span
+      font-size: 15px !important
     & .cities-wrapper
-      grid-template-columns: repeat(4 , 1fr)
+      grid-template-columns: repeat(3 , 200px)
+      grid-auto-rows: 200px
+      & .city-block
+        &>div:first-child img
+          height: 70px
+        & div:nth-child(2)
+          height: 30%
+          justify-content: space-around
