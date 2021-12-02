@@ -1,10 +1,8 @@
-import {
-  openweathermapApiKey,
-} from './Skyax/constants';
 import store from './Skyax/store';
 import {
   setCurrentCity,
   setLocation,
+  setError,
 } from './Skyax/actions';
 
 // https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${openweathermapApiKey}
@@ -16,8 +14,16 @@ const getCityByCoords = (coords, callback) => {
       if (response.status === 200) {
         return response.json();
       }
+      return Promise.reject(new Error(response.status));
     })
-    .then((data) => callback(data));
+    .then((data) => callback(data))
+    .catch((e) => {
+      if (e.message === '404') {
+        store.dispatch(setError(`Location not found`));
+        return;
+      }
+      console.warn(e);
+    });
 };
 
 const geoSuccess = (position) => {
@@ -28,6 +34,14 @@ const geoSuccess = (position) => {
   });
 };
 const geoError = (error) => {
+  if (error.code === 0 && error.code === 2 && error.code === 3) {
+    store.dispatch(setError(`Location not found`));
+    return;
+  }
+  if (error.code === 1 && store.getState().location === 'No location') {
+    store.dispatch(setError(`No access to geolocation`));
+    return;
+  }
   console.log(`Error in geo occurred. Error code: ${error.code}`);
   // error.code can be:
   //   0: unknown error
