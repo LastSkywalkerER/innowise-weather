@@ -5,6 +5,9 @@ import ErrorPopup from './components/ErrorPopup';
 import routes from './router/routes';
 import switcher from './router/switcher';
 import router from './router/routerInitial';
+import ChangeTheme from './helpers/ChangeTheme';
+import darkTheme from './helpers/themes/darkTheme';
+import lightTheme from './helpers/themes/lightTheme';
 import './geolocation';
 
 export default class WeatherApp extends Skyact.SkyactComponent {
@@ -13,6 +16,11 @@ export default class WeatherApp extends Skyact.SkyactComponent {
     this.state = {
       page: router.getCurrentPath(),
     };
+
+    this.themeChenger = new ChangeTheme();
+    this.themeChenger.addTheme('Dark', darkTheme);
+    this.themeChenger.addTheme('Light', lightTheme);
+    this.themeChenger.start();
   }
 
   componentDidMount() {
