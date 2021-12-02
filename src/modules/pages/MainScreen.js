@@ -28,6 +28,7 @@ export default class MainScreen extends Skyact.SkyactComponent {
       weatherLoading: true,
       forecastLoading: true,
       currentWeather: new MainWeather(),
+      currentCity: store.getState().currentCity,
     };
   }
 
@@ -48,6 +49,13 @@ export default class MainScreen extends Skyact.SkyactComponent {
           [FORECAST_LOADING]: state[FORECAST_LOADING],
         });
       }
+      if (this.state.currentCity !== state.currentCity) {
+        this.state.currentWeather.getMainData();
+        this.state.currentWeather.getForecast();
+        this.setState({
+          currentCity: state.currentCity,
+        });
+      }
     };
 
     store.subscribe(this.subscribtion);
@@ -58,16 +66,15 @@ export default class MainScreen extends Skyact.SkyactComponent {
   }
 
   render() {
-    let currentCity = 0;
+    const currentCity = this.state.currentCity;
     let currentTemp = 0;
-    let currentCond = 0;
+    let currentCond = 'Maybe';
     let currentHumidity = 0;
     let currentPressure = 0;
     let currentWind = 0;
     let currentSunrise = 0;
     let currentSunset = 0;
     if (!this.state[WEATHER_LOADING]) {
-      currentCity = this.state.currentWeather.city;
       currentTemp = this.state.currentWeather.mainData.temp;
       currentCond = this.state.currentWeather.mainData.condition;
       currentHumidity = this.state.currentWeather.mainData.humidity;

@@ -10,6 +10,7 @@ import {
   SET_INPUT,
   SET_INPUT_VALUE,
   CHANGE_SETTINGS,
+  ERROR,
 } from './constants';
 
 export default function rootReducer(state, action) {
@@ -88,6 +89,11 @@ export default function rootReducer(state, action) {
           ...state.settings,
           ...action.payload,
         },
+      };
+    case ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return {

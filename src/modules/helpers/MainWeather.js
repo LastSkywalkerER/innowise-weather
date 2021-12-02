@@ -11,6 +11,7 @@ import store from '../Skyax/store';
 import {
   downLoading,
   upLoading,
+  setError,
 } from '../Skyax/actions';
 import inconsParser from './inconsParser';
 
@@ -18,7 +19,6 @@ export default class MainWeather {
   constructor() {
     this.countOfHourlyForecast = 5;
     this.countOfDailyForecast = 3;
-    this.city = store.getState().currentCity;
     this.currentData = new Date();
     this.mainData = {};
     this.hourlyForecast = [];
@@ -30,22 +30,25 @@ export default class MainWeather {
     store.dispatch(upLoading(LOCATION_WEATHER_LOADING));
   }
 
-  getResponseFromApi(action, callback, city = this.city) {
-    fetch(`${this.callBody}${action}?q=${city}&appid=${openweathermapApiKey}`)
-      // eslint-disable-next-line consistent-return
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          return response.json();
-        }
-        return Promise.reject(new Error(response.status));
-      })
-      .then((data) => callback(data))
-      .catch((e) => {
-        if (e.message === '404') {
-          throw e;
-        }
-        console.warn(e);
-      });
+  getResponseFromApi(action, callback, city = store.getState().currentCity) {
+    if (city !== 'No location') {
+      fetch(`${this.callBody}${action}?q=${city}&appid=${openweathermapApiKey}`)
+        // eslint-disable-next-line consistent-return
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            return response.json();
+          }
+          return Promise.reject(new Error(response.status));
+        })
+        .then((data) => callback(data))
+        .catch((e) => {
+          if (e.message === '404') {
+            store.dispatch(setError(`${store.getState().currentCity} not found`));
+            return;
+          }
+          console.warn(e);
+        });
+    }
   }
 
   stringCorrection(string) {

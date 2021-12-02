@@ -10,6 +10,7 @@ import {
   SET_INPUT,
   SET_INPUT_VALUE,
   CHANGE_SETTINGS,
+  ERROR,
 } from './constants';
 
 export function setCurrentCity(city) {
@@ -95,6 +96,13 @@ export function setInputValue(value) {
 export function changeSettings(value) {
   return {
     type: CHANGE_SETTINGS,
+    payload: value,
+  };
+}
+
+export function setError(value) {
+  return {
+    type: ERROR,
     payload: value,
   };
 }

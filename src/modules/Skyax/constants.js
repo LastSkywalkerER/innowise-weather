@@ -9,6 +9,7 @@ export const EDIT_CITIES = 'EDIT_CITIES';
 export const SET_INPUT = 'SET_INPUT';
 export const SET_INPUT_VALUE = 'SET_INPUT_VALUE';
 export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
+export const ERROR = 'ERROR';
 
 export const WEATHER_LOADING = 'weatherLoading';
 export const FORECAST_LOADING = 'forecastLoading';

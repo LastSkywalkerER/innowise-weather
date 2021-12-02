@@ -15,4 +15,5 @@ export default createStore(rootReducer, {
   forecastLoading: true,
   locationWeatherLoading: true,
   settings: localStorage.getItem('settings') ? JSON.parse(localStorage.getItem('settings')) : startSettings,
+  error: undefined,
 });

@@ -12,6 +12,7 @@ import store from '../Skyax/store';
 import {
   LOCATION_WEATHER_LOADING,
   CHANGE_SETTINGS,
+  SET_LOCATION,
 } from '../Skyax/constants';
 // Skyact.createElement('', null, [])
 
@@ -36,7 +37,7 @@ export default class Menu extends Skyact.SkyactComponent {
           [LOCATION_WEATHER_LOADING]: state[LOCATION_WEATHER_LOADING],
         });
       }
-      if (type === CHANGE_SETTINGS) {
+      if (type === CHANGE_SETTINGS || type === SET_LOCATION) {
         this.weather.getWeatherByLocation();
         this.setState({
           [LOCATION_WEATHER_LOADING]: true,

@@ -1,0 +1,46 @@
+
+.error-popup
+  opacity: 0
+  position: absolute
+  z-index: 99
+  top: 20px
+  right: -50px
+  background: var(--city-block-color)
+  color: var(--text-color)
+  border-radius: 17.3077px
+  padding: 15px
+  box-shadow: -3px 3px 15px var(--sun-shadow)
+  backdrop-filter: blur(10px)
+  width: 0
+  transition: 200ms
+  &>.error-text
+    margin: 0
+    display: none
+    text-align: center
+    white-space: nowrap
+  &.active
+    animation: show-popup 2s alternate 2
+    &>.error-text
+      display: block
+      animation: show-text 2s alternate 2
+
+@keyframes show-popup
+  30%
+    right: 10px
+    opacity: 1
+  70%
+    opacity: 1
+    right: 10px
+    width: calc( 100% - 20px )
+  100%
+    opacity: 1
+    right: 10px
+    width: calc( 100% - 20px )
+
+@keyframes show-text
+  0%
+    opacity: 0
+  80%
+    opacity: 1
+  100%
+    opacity: 1
