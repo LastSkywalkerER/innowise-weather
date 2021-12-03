@@ -16,7 +16,7 @@ export default class cityBlock extends Skyact.SkyactComponent {
       city,
       country,
       temp,
-      icon,
+      Icon,
       humidity,
       wind,
       index,
@@ -38,9 +38,7 @@ export default class cityBlock extends Skyact.SkyactComponent {
     }, [
       Skyact.createElement('div', null, [
         Skyact.createElement('h3', null, [temp]),
-        Skyact.createElement('img', {
-          src: icon,
-        }),
+        Skyact.createElement(Icon, null),
       ]),
       Skyact.createElement('div', null, [
         Skyact.createElement('span', null, [city]),

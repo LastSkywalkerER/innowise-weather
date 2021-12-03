@@ -71,4 +71,8 @@ export default [{
     name: '--setting-color',
     color: '#5F89A9',
   },
+  {
+    name: '--city-saved-icons',
+    color: 'url(#RadialGradientLight)',
+  },
 ];
