@@ -133,6 +133,9 @@ export default class MainWeather {
   getForecast() {
     const action = '/forecast';
     this.getResponseFromApi(action, (data) => {
+      // const map = new Map();
+      // data.list.map((list) => map.set(list.weather[0].description, list.weather[0].description));
+      // console.dir(map);
       for (let i = 0; i < this.countOfHourlyForecast; i++) {
         this.hourlyForecast.push({
           time: this.hoursCorrection(data.list[i].dt),

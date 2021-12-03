@@ -124,8 +124,8 @@ export default class MainScreen extends Skyact.SkyactComponent {
         Skyact.createElement('div', {
           className: 'sunrise',
         }, [
-          Skyact.createElement('img', {
-            src: sunIcon,
+          Skyact.createElement('div', {
+            className: 'sun',
           }),
           Skyact.createElement('span', null, `${currentSunrise}`),
         ]),

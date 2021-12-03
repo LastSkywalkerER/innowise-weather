@@ -110,10 +110,6 @@ export default class MainWeather {
     this.dataList = [];
     if (this.savedCities.length) {
       this.savedCities.forEach((city) => this.getResponseFromApi(action, city.name, (data) => {
-        console.table({
-          name: data.location.name,
-          condition: data.current.condition.text,
-        });
         this.dataList.push({
           city: data.location.name,
           country: data.location.country,
