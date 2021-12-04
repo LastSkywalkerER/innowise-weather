@@ -1,0 +1,147 @@
+.animation-sun
+  animation-name: sun
+  animation-duration: 20000ms
+  animation-direction: normal
+  animation-delay: 0ms
+  animation-fill-mode: forwards
+  animation-timing-function: liner
+  animation-iteration-count: infinite
+
+.animation-cloud1
+  animation-name: cloud1
+  animation-duration: 50000ms
+  animation-direction: alternate
+  animation-delay: 0ms
+  animation-fill-mode: forwards
+  animation-timing-function: ease-in-out
+  animation-iteration-count: infinite
+
+.animation-cloud2
+  animation-name: cloud2
+  animation-duration: 10000ms
+  animation-direction: alternate
+  animation-delay: 0ms
+  animation-fill-mode: forwards
+  animation-timing-function: ease-in-out
+  animation-iteration-count: infinite
+
+@keyframes sun
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+@keyframes cloud1
+  0%
+    transform: translate(0, 0)
+  100%
+    transform: translate(30%, 10%)
+
+@keyframes cloud2
+  0%
+    transform: translate(0, 0)
+  100%
+    transform: translate(-30%, -10%)
+
+.animation-blob
+  animation-name: blob1
+  animation-direction: normal
+  animation-delay: 0ms
+  animation-fill-mode: forwards
+  animation-timing-function: ease-in
+  animation-iteration-count: infinite
+
+.animation-snowflake
+  animation-name: snowflake
+  animation-direction: normal
+  animation-delay: 0ms
+  animation-fill-mode: forwards
+  animation-timing-function: ease-in
+  animation-iteration-count: infinite
+
+.animation-blob1
+  animation-duration: 1988ms
+
+.animation-blob2
+  animation-duration: 1745ms
+
+.animation-blob3
+  animation-duration: 1664ms
+
+.animation-blob4
+  animation-name: blob2
+  animation-duration: 1763ms
+
+.animation-blob5
+  animation-name: blob2
+  animation-duration: 1665ms
+
+.animation-blob6
+  animation-name: blob2
+  animation-duration: 1756ms
+
+@keyframes blob1
+  0%
+    transform: translate(0, 0)
+    opacity: 0
+  50%
+    opacity: 0.8
+  80%
+    opacity: 1
+  100%
+    transform: translate(0, 300%)
+    opacity: 0
+
+@keyframes blob2
+  0%
+    transform: translate(0, 0)
+    opacity: 0
+  40%
+    opacity: 0
+  80%
+    opacity: 1
+  100%
+    transform: translate(0, 350%)
+    opacity: 0
+
+@keyframes snowflake
+  0%
+    transform: translate(0, 0)
+    opacity: 0
+  50%
+    opacity: 0.8
+  80%
+    opacity: 1
+  100%
+    transform: translate(0, 300%)
+    opacity: 0
+
+.animation-thunder
+  animation-name: thunder
+  animation-direction: normal
+  animation-delay: 0ms
+  animation-fill-mode: forwards
+  animation-timing-function: ease-in
+  animation-iteration-count: infinite
+
+.animation-thunder1
+  animation-duration: 1500ms
+
+.animation-thunder2
+  animation-duration: 2333ms
+
+@keyframes thunder
+  0%
+    opacity: 0
+  20%
+    opacity: 0
+  30%
+    opacity: 1
+  40%
+    opacity: 0.5
+  50%
+    opacity: 1
+  60%
+    opacity: 0
+  100%
+    opacity: 0

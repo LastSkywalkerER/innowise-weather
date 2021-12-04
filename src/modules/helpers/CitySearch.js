@@ -64,7 +64,7 @@ export default class MainWeather {
   getTemp(celsium, fahrenheit) {
     const settings = store.getState().settings;
     if (settings.Temperature === 'Celcius') {
-      return `${celsium}°`;
+      return `${Math.round(celsium, 0)}°`;
     }
     if (settings.Temperature === 'Fahrenheit') {
       return `${Math.round(fahrenheit, 0)}°`;

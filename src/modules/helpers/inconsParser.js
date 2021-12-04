@@ -74,6 +74,10 @@ export default (type) => {
       return checkTheme(moderateSnow, moderateSnowLight);
     case 'thunder':
       return checkTheme(thunder, thunderLight);
+    case 'lightning':
+      return checkTheme(thunder, thunderLight);
+    case 'storm':
+      return checkTheme(thunder, thunderLight);
     default:
       return shinyIcon;
   }

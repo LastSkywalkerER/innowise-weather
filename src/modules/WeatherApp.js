@@ -10,6 +10,8 @@ import darkTheme from './helpers/themes/darkTheme';
 import lightTheme from './helpers/themes/lightTheme';
 import './geolocation';
 
+import '../styles/animations.sass';
+
 export default class WeatherApp extends Skyact.SkyactComponent {
   constructor(props) {
     super(props);

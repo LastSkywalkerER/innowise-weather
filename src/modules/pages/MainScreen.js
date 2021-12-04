@@ -11,12 +11,11 @@ import {
 } from '../Skyax/constants';
 import MainWeather from '../helpers/MainWeather';
 import Loader from '../components/Loader';
+import mainInconsParser from '../helpers/mainInconsParser';
 
 import moonImage from '../../static/weather-img/moon.png';
 import daylightLineImage from '../../static/weather-img/daylight-line.png';
-import cloud1Image from '../../static/weather-img/cloud1.png';
-import cloud2Image from '../../static/weather-img/cloud2.png';
-import sunIcon from '../../static/weather-img/icons/sun.svg';
+
 // Skyact.createElement('', null, [])
 
 import '../../styles/main-screen.sass';
@@ -66,6 +65,7 @@ export default class MainScreen extends Skyact.SkyactComponent {
   }
 
   render() {
+    // eslint-disable-next-line prefer-destructuring
     const currentCity = this.state.currentCity;
     let currentTemp = 0;
     let currentCond = 'Maybe';
@@ -101,17 +101,7 @@ export default class MainScreen extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'main-weather-image',
       }, [
-        Skyact.createElement('div', {
-          className: 'sun',
-        }),
-        Skyact.createElement('img', {
-          className: 'cloud1',
-          src: cloud1Image,
-        }),
-        Skyact.createElement('img', {
-          className: 'cloud2',
-          src: cloud2Image,
-        }),
+        Skyact.createElement(mainInconsParser(currentCond), null),
       ]),
       Skyact.createElement(DataString, {
         currentHumidity,

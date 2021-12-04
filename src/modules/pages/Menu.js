@@ -14,6 +14,7 @@ import {
   CHANGE_SETTINGS,
   SET_LOCATION,
 } from '../Skyax/constants';
+import mainInconsParser from '../helpers/mainInconsParser';
 // Skyact.createElement('', null, [])
 
 import geo from '../../static/weather-img/icons/geo.svg';
@@ -88,9 +89,7 @@ export default class Menu extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'weather-image',
       }, [
-        Skyact.createElement('div', {
-          className: 'sun',
-        }, []),
+        Skyact.createElement(mainInconsParser(condition), null),
       ]),
       Skyact.createElement('span', {
         className: 'weather-phenomenon',
