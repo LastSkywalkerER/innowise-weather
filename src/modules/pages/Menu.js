@@ -15,6 +15,7 @@ import {
   SET_LOCATION,
 } from '../Skyax/constants';
 import mainInconsParser from '../helpers/mainInconsParser';
+import Loader from '../components/Loader';
 // Skyact.createElement('', null, [])
 
 import geo from '../../static/weather-img/icons/geo.svg';
@@ -56,20 +57,28 @@ export default class Menu extends Skyact.SkyactComponent {
   }
 
   render() {
-    // eslint-disable-next-line prefer-destructuring
-    let location = store.getState().location;
-    let condition = 'maybe';
-    let temperature = '0';
-    let humidity = '0';
-    let pressure = '0';
-    let wind = '0';
+    let mainData = [Skyact.createElement(Loader, null, [])];
+
     if (!this.state[LOCATION_WEATHER_LOADING]) {
-      location = this.weather.locationWeather.location;
-      condition = this.weather.locationWeather.condition;
-      temperature = this.weather.locationWeather.temp;
-      humidity = this.weather.locationWeather.humidity;
-      pressure = this.weather.locationWeather.pressure;
-      wind = this.weather.locationWeather.wind;
+      mainData = [
+        Skyact.createElement('h4', null, this.weather.locationWeather.location),
+        Skyact.createElement('div', {
+          className: 'weather-image',
+        }, [
+          Skyact.createElement(mainInconsParser(this.weather.locationWeather.condition), null),
+        ]),
+        Skyact.createElement('span', {
+          className: 'weather-phenomenon',
+        }, this.weather.locationWeather.condition),
+        Skyact.createElement('h3', {
+          className: 'temperature',
+        }, this.weather.locationWeather.temp),
+        Skyact.createElement(DataString, {
+          currentHumidity: this.weather.locationWeather.humidity,
+          currentPressure: this.weather.locationWeather.pressure,
+          currentWind: this.weather.locationWeather.wind,
+        }),
+      ];
     }
 
     return Skyact.createElement('div', {
@@ -85,23 +94,7 @@ export default class Menu extends Skyact.SkyactComponent {
         }, []),
         Skyact.createElement('h5', null, ['Your Location Now']),
       ]),
-      Skyact.createElement('h4', null, location),
-      Skyact.createElement('div', {
-        className: 'weather-image',
-      }, [
-        Skyact.createElement(mainInconsParser(condition), null),
-      ]),
-      Skyact.createElement('span', {
-        className: 'weather-phenomenon',
-      }, condition),
-      Skyact.createElement('h3', {
-        className: 'temperature',
-      }, temperature),
-      Skyact.createElement(DataString, {
-        currentHumidity: humidity,
-        currentPressure: pressure,
-        currentWind: wind,
-      }),
+      ...mainData,
       Skyact.createElement('div', {
         className: 'settings',
       }, settings.map((setting) => Skyact.createElement(Settings, setting))),

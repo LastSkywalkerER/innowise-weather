@@ -103,6 +103,7 @@ export default class CitySaved extends Skyact.SkyactComponent {
             list: 'citiesList',
             onInput: (event) => {
               store.dispatch(setInputValue(event.target.value));
+              this.citiesData.addCity();
             },
             // eslint-disable-next-line no-return-assign
             getRef: (element) => {

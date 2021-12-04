@@ -65,88 +65,75 @@ export default class MainScreen extends Skyact.SkyactComponent {
   }
 
   render() {
-    // eslint-disable-next-line prefer-destructuring
-    const currentCity = this.state.currentCity;
-    let currentTemp = 0;
-    let currentCond = 'Maybe';
-    let currentHumidity = 0;
-    let currentPressure = 0;
-    let currentWind = 0;
-    let currentSunrise = 0;
-    let currentSunset = 0;
+    let mainData = [Skyact.createElement(Loader, null, [])];
     if (!this.state[WEATHER_LOADING]) {
-      currentTemp = this.state.currentWeather.mainData.temp;
-      currentCond = this.state.currentWeather.mainData.condition;
-      currentHumidity = this.state.currentWeather.mainData.humidity;
-      currentPressure = this.state.currentWeather.mainData.pressure;
-      currentWind = this.state.currentWeather.mainData.wind;
-      currentSunrise = this.state.currentWeather.mainData.sunrise;
-      currentSunset = this.state.currentWeather.mainData.sunset;
+      mainData = [Skyact.createElement('div', {
+        className: 'container',
+      }, [
+        Skyact.createElement('div', {
+          className: 'main-data',
+        }, [
+          Skyact.createElement('span', null, [`${this.state.currentCity}`]),
+          Skyact.createElement('h1', null, [`${this.state.currentWeather.mainData.temp}`]),
+          Skyact.createElement('span', {
+            className: 'weather-phenomenon',
+          }, [`${this.state.currentWeather.mainData.condition}`]),
+        ]),
+        Skyact.createElement('div', {
+          className: 'main-weather-image',
+        }, [
+          Skyact.createElement(mainInconsParser(this.state.currentWeather.mainData.condition),
+            null),
+        ]),
+        Skyact.createElement(DataString, {
+          currentHumidity: this.state.currentWeather.mainData.humidity,
+          currentPressure: this.state.currentWeather.mainData.pressure,
+          currentWind: this.state.currentWeather.mainData.wind,
+        }),
+        Skyact.createElement('div', {
+          className: 'daylight-block',
+        }, [
+          Skyact.createElement('div', {
+            className: 'sunrise',
+          }, [
+            Skyact.createElement('div', {
+              className: 'sun',
+            }),
+            Skyact.createElement('span', null, `${this.state.currentWeather.mainData.sunrise}`),
+          ]),
+          Skyact.createElement('div', {
+            className: 'sunset',
+          }, [
+            Skyact.createElement('span', null, `${this.state.currentWeather.mainData.sunset}`),
+            Skyact.createElement('img', {
+              src: moonImage,
+            }),
+          ]),
+          Skyact.createElement('img', {
+            className: 'daylight-line',
+            src: daylightLineImage,
+          }),
+        ]),
+        Skyact.createElement('div', {
+          className: 'hours-forecast-block',
+        }, [
+          Skyact.createElement('h3', null, ['Today']),
+          Skyact.createElement('div', {
+              className: 'hours-forecast-wrapper',
+            }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
+            this.state.currentWeather.hourlyForecast
+            .map((forecast) => Skyact.createElement(HoursForecastData, forecast))),
+        ]),
+        Skyact.createElement('div', {
+            className: 'days-forecast-wrapper',
+          }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
+          this.state.currentWeather.daylyForecast
+          .map((forecast) => Skyact.createElement(DaysForecastData, forecast))),
+      ])];
     }
 
     return Skyact.createElement('div', {
       className: 'main-screen',
-    }, [Skyact.createElement('div', {
-      className: 'container',
-    }, [
-      Skyact.createElement('div', {
-        className: 'main-data',
-      }, [
-        Skyact.createElement('span', null, [`${currentCity}`]),
-        Skyact.createElement('h1', null, [`${currentTemp}`]),
-        Skyact.createElement('span', {
-          className: 'weather-phenomenon',
-        }, [`${currentCond}`]),
-      ]),
-      Skyact.createElement('div', {
-        className: 'main-weather-image',
-      }, [
-        Skyact.createElement(mainInconsParser(currentCond), null),
-      ]),
-      Skyact.createElement(DataString, {
-        currentHumidity,
-        currentPressure,
-        currentWind,
-      }),
-      Skyact.createElement('div', {
-        className: 'daylight-block',
-      }, [
-        Skyact.createElement('div', {
-          className: 'sunrise',
-        }, [
-          Skyact.createElement('div', {
-            className: 'sun',
-          }),
-          Skyact.createElement('span', null, `${currentSunrise}`),
-        ]),
-        Skyact.createElement('div', {
-          className: 'sunset',
-        }, [
-          Skyact.createElement('span', null, `${currentSunset}`),
-          Skyact.createElement('img', {
-            src: moonImage,
-          }),
-        ]),
-        Skyact.createElement('img', {
-          className: 'daylight-line',
-          src: daylightLineImage,
-        }),
-      ]),
-      Skyact.createElement('div', {
-        className: 'hours-forecast-block',
-      }, [
-        Skyact.createElement('h3', null, ['Today']),
-        Skyact.createElement('div', {
-            className: 'hours-forecast-wrapper',
-          }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
-          this.state.currentWeather.hourlyForecast
-          .map((forecast) => Skyact.createElement(HoursForecastData, forecast))),
-      ]),
-      Skyact.createElement('div', {
-          className: 'days-forecast-wrapper',
-        }, this.state[FORECAST_LOADING] ? [Skyact.createElement(Loader, null, [])] :
-        this.state.currentWeather.daylyForecast
-        .map((forecast) => Skyact.createElement(DaysForecastData, forecast))),
-    ])]);
+    }, mainData);
   }
 }

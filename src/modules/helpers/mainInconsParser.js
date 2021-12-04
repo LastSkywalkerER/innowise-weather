@@ -9,23 +9,7 @@ import Snow from '../components/main-weather-images/Snow';
 import ModerateSnow from '../components/main-weather-images/ModerateSnow';
 import Thunder from '../components/main-weather-images/Thunder';
 
-import store from '../Skyax/store';
-
-const checkTheme = (darkMode, lightMode) => {
-  // eslint-disable-next-line prefer-destructuring
-  const theme = store.getState().settings.Theme;
-
-  if (theme === 'Dark') {
-    return darkMode;
-  }
-  if (theme === 'Light') {
-    return lightMode;
-  }
-  return FewClouds;
-};
-
 export default (type) => {
-  console.log(type.toLowerCase());
   switch (type.toLowerCase()) {
     case 'clear sky':
       return ClearSky;

@@ -7,9 +7,13 @@ export default class CityListItem extends Skyact.SkyactComponent {
   render() {
     const {
       name,
+      addCity,
     } = this.props;
     return Skyact.createElement('option', {
       value: `${name}`,
+      onClick: () => {
+        addCity();
+      },
     });
   }
 }
