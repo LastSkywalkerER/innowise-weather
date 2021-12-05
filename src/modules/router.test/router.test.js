@@ -1,8 +1,6 @@
 import Router from '../router';
-import {
-  routes,
-  switcher,
-} from '../router/routes';
+import routes from '../router/routes';
+import switcher from '../router/switcher';
 
 import MainScreen from '../pages/MainScreen';
 import CitySaved from '../pages/CitySaved';

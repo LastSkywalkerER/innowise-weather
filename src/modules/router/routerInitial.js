@@ -1,7 +1,7 @@
 import Router from '.';
 
 const router = new Router({
-  mode: 'hash',
+  mode: 'history',
 });
 router.init();
 
