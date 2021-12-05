@@ -15,9 +15,9 @@ export default class ChangeTheme {
   }
 
   setTheme(theme) {
-    this.currentTheme = this.themes[theme];
-    this.themeName = theme;
-    localStorage.setItem('themeName', theme);
+    this.themeName = theme[0].toUpperCase() + theme.slice(1);
+    this.currentTheme = this.themes[this.themeName];
+    localStorage.setItem('themeName', this.themeName);
     this.currentTheme.forEach(
       (elem) => document.documentElement.style.setProperty(elem.name, elem.color),
     );
