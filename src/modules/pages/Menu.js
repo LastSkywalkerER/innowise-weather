@@ -4,11 +4,10 @@
 import Skyact from '../Skyact';
 import DataString from '../components/DataString';
 import Settings from '../components/Settings';
-import {
-  settings,
-} from '../config';
+import { settings } from '../config';
 import MainWeather from '../helpers/MainWeather';
 import store from '../Skyax/store';
+import { upLoading } from '../Skyax/actions';
 import {
   LOCATION_WEATHER_LOADING,
   CHANGE_SETTINGS,
@@ -29,12 +28,17 @@ export default class Menu extends Skyact.SkyactComponent {
     this.state = {
       [LOCATION_WEATHER_LOADING]: true,
     };
+
+    store.dispatch(upLoading(LOCATION_WEATHER_LOADING));
   }
 
   componentDidMount() {
     this.subscribtion = (state, type) => {
-      if (this.state[LOCATION_WEATHER_LOADING] !== state[LOCATION_WEATHER_LOADING] &&
-        state[LOCATION_WEATHER_LOADING] === false) {
+      if (
+        this.state[LOCATION_WEATHER_LOADING] !==
+          state[LOCATION_WEATHER_LOADING] &&
+        state[LOCATION_WEATHER_LOADING] === false
+      ) {
         this.setState({
           [LOCATION_WEATHER_LOADING]: state[LOCATION_WEATHER_LOADING],
         });
@@ -62,17 +66,32 @@ export default class Menu extends Skyact.SkyactComponent {
     if (!this.state[LOCATION_WEATHER_LOADING]) {
       mainData = [
         Skyact.createElement('h4', null, this.weather.locationWeather.location),
-        Skyact.createElement('div', {
-          className: 'weather-image',
-        }, [
-          Skyact.createElement(mainInconsParser(this.weather.locationWeather.condition), null),
-        ]),
-        Skyact.createElement('span', {
-          className: 'weather-phenomenon',
-        }, this.weather.locationWeather.condition),
-        Skyact.createElement('h3', {
-          className: 'temperature',
-        }, this.weather.locationWeather.temp),
+        Skyact.createElement(
+          'div',
+          {
+            className: 'weather-image',
+          },
+          [
+            Skyact.createElement(
+              mainInconsParser(this.weather.locationWeather.condition),
+              null,
+            ),
+          ],
+        ),
+        Skyact.createElement(
+          'span',
+          {
+            className: 'weather-phenomenon',
+          },
+          this.weather.locationWeather.condition,
+        ),
+        Skyact.createElement(
+          'h3',
+          {
+            className: 'temperature',
+          },
+          this.weather.locationWeather.temp,
+        ),
         Skyact.createElement(DataString, {
           currentHumidity: this.weather.locationWeather.humidity,
           currentPressure: this.weather.locationWeather.pressure,
@@ -81,23 +100,43 @@ export default class Menu extends Skyact.SkyactComponent {
       ];
     }
 
-    return Skyact.createElement('div', {
-      className: 'menu',
-    }, Skyact.createElement('div', {
-      className: 'container',
-    }, [
-      Skyact.createElement('div', {
-        className: 'location-title',
-      }, [
-        Skyact.createElement('img', {
-          src: geo,
-        }, []),
-        Skyact.createElement('h5', null, ['Your Location Now']),
-      ]),
-      ...mainData,
-      Skyact.createElement('div', {
-        className: 'settings',
-      }, settings.map((setting) => Skyact.createElement(Settings, setting))),
-    ]));
+    return Skyact.createElement(
+      'div',
+      {
+        className: 'menu',
+      },
+      Skyact.createElement(
+        'div',
+        {
+          className: 'container',
+        },
+        [
+          Skyact.createElement(
+            'div',
+            {
+              className: 'location-title',
+            },
+            [
+              Skyact.createElement(
+                'img',
+                {
+                  src: geo,
+                },
+                [],
+              ),
+              Skyact.createElement('h5', null, ['Your Location Now']),
+            ],
+          ),
+          ...mainData,
+          Skyact.createElement(
+            'div',
+            {
+              className: 'settings',
+            },
+            settings.map((setting) => Skyact.createElement(Settings, setting)),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -8,11 +8,7 @@ import {
   LOCATION_WEATHER_LOADING,
 } from '../Skyax/constants';
 import store from '../Skyax/store';
-import {
-  downLoading,
-  upLoading,
-  setError,
-} from '../Skyax/actions';
+import { downLoading, setError } from '../Skyax/actions';
 import inconsParser from './inconsParser';
 
 export default class MainWeather {
@@ -25,9 +21,6 @@ export default class MainWeather {
     this.daylyForecast = [];
     this.locationWeather = {};
     this.callBody = 'https://api.openweathermap.org/data/2.5';
-    store.dispatch(upLoading(WEATHER_LOADING));
-    store.dispatch(upLoading(FORECAST_LOADING));
-    store.dispatch(upLoading(LOCATION_WEATHER_LOADING));
   }
 
   getResponseFromApi(action, callback, city = store.getState().currentCity) {
@@ -43,7 +36,9 @@ export default class MainWeather {
         .then((data) => callback(data))
         .catch((e) => {
           if (e.message === '404') {
-            store.dispatch(setError(`${store.getState().currentCity} not found`));
+            store.dispatch(
+              setError(`${store.getState().currentCity} not found`),
+            );
             return;
           }
           console.warn(e);
@@ -68,7 +63,7 @@ export default class MainWeather {
   }
 
   kelvinToFahrenheit(kelvin) {
-    return `${Math.round((((kelvin - 273.15) * 9) / 5) + 32, 0)}°`;
+    return `${Math.round(((kelvin - 273.15) * 9) / 5 + 32, 0)}°`;
   }
 
   getTemp(kelvin) {
@@ -118,7 +113,9 @@ export default class MainWeather {
     const action = '/weather';
     this.getResponseFromApi(action, (data) => {
       this.mainData.temp = this.getTemp(data.main.temp);
-      this.mainData.condition = this.stringCorrection(data.weather[0].description);
+      this.mainData.condition = this.stringCorrection(
+        data.weather[0].description,
+      );
       this.mainData.humidity = `${data.main.humidity}%`;
       this.mainData.pressure = `${data.main.pressure / 10}\u00A0MPa`;
       this.mainData.wind = this.getWind(data.wind.speed);
@@ -181,15 +178,21 @@ export default class MainWeather {
     const action = '/weather';
     const location = store.getState().location;
 
-    this.getResponseFromApi(action, (data) => {
-      this.locationWeather.location = location;
-      this.locationWeather.condition = this.stringCorrection(data.weather[0].description);
-      this.locationWeather.temp = this.getTemp(data.main.temp);
-      this.locationWeather.humidity = `${data.main.humidity}%`;
-      this.locationWeather.pressure = `${data.main.pressure / 10}\u00A0MPa`;
-      this.locationWeather.wind = this.getWind(data.wind.speed);
+    this.getResponseFromApi(
+      action,
+      (data) => {
+        this.locationWeather.location = location;
+        this.locationWeather.condition = this.stringCorrection(
+          data.weather[0].description,
+        );
+        this.locationWeather.temp = this.getTemp(data.main.temp);
+        this.locationWeather.humidity = `${data.main.humidity}%`;
+        this.locationWeather.pressure = `${data.main.pressure / 10}\u00A0MPa`;
+        this.locationWeather.wind = this.getWind(data.wind.speed);
 
-      store.dispatch(downLoading(LOCATION_WEATHER_LOADING));
-    }, location);
+        store.dispatch(downLoading(LOCATION_WEATHER_LOADING));
+      },
+      location,
+    );
   }
 }
