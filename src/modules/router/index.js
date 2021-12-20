@@ -10,7 +10,7 @@ export default class Router {
     this.mode = window.history.pushState ? 'history' : 'hash';
 
     this.root = '';
-    this.root = this.getFragment() === '' ? '' : `/${this.getFragment()}`;
+    this.root = '';
 
     if (options) {
       if (options.mode) {
@@ -75,9 +75,14 @@ export default class Router {
     let fragment = '';
 
     if (this.mode === 'history') {
-      fragment = this.clearSlashes(decodeURI(window.location.pathname + window.location.search));
+      fragment = this.clearSlashes(
+        decodeURI(window.location.pathname + window.location.search),
+      );
       fragment = fragment.replace(/\?(.*)$/, '');
-      fragment = this.root !== '' ? fragment.replace(this.clearSlashes(this.root), '') : fragment;
+      fragment =
+        this.root !== ''
+          ? fragment.replace(this.clearSlashes(this.root), '')
+          : fragment;
     } else {
       const match = window.location.href.match(/#(.*)$/);
       fragment = match ? match[1] : '';
@@ -112,6 +117,8 @@ export default class Router {
   checkRoute() {
     this.current = this.getFragment();
 
-    return this.routes.filter((route) => this.current === this.clearSlashes(route.path));
+    return this.routes.filter(
+      (route) => this.current === this.clearSlashes(route.path),
+    );
   }
 }

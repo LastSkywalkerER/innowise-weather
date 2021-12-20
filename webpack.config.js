@@ -1,8 +1,6 @@
 /* eslint-disable indent */
 const path = require('path');
-const {
-  CleanWebpackPlugin,
-} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HTMLwebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -55,26 +53,32 @@ module.exports = {
     open: '/',
     port: 8080,
     hot: true,
+    historyApiFallback: true,
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.css$/,
-        use: [{
+        use: [
+          {
             loader: MiniCssExtractPlugin.loader,
             options: {},
           },
           'css-loader',
         ],
-      }, {
+      },
+      {
         test: /\.sass$/,
-        use: [{
+        use: [
+          {
             loader: MiniCssExtractPlugin.loader,
             options: {},
           },
           'css-loader',
           'sass-loader',
         ],
-      }, {
+      },
+      {
         test: /\.(png|jpg|gif|svg)$/,
         use: ['file-loader'],
       },
@@ -113,10 +117,12 @@ module.exports = {
       },
     }),
     new CopyWebpackPlugin({
-      patterns: [{
-        from: path.resolve(__dirname, 'src/static'),
-        to: path.resolve(__dirname, 'dist/static'),
-      }],
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/static'),
+          to: path.resolve(__dirname, 'dist/static'),
+        },
+      ],
     }),
     new MiniCssExtractPlugin({
       filename: fileName('css'),
