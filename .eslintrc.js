@@ -19,5 +19,7 @@ module.exports = {
     'no-prototype-builtins': 0,
     'consistent-return': 0,
     'no-continue': 0,
+    'implicit-arrow-linebreak': 0,
+    'function-paren-newline': 0,
   },
 };
