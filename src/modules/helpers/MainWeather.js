@@ -26,7 +26,6 @@ export default class MainWeather {
   getResponseFromApi(action, callback, city = store.getState().currentCity) {
     if (city !== 'No location') {
       fetch(`${this.callBody}${action}?q=${city}&appid=${openweathermapApiKey}`)
-        // eslint-disable-next-line consistent-return
         .then((response) => {
           if (response.status >= 200 && response.status < 300) {
             return response.json();
@@ -41,6 +40,7 @@ export default class MainWeather {
             );
             return;
           }
+          // eslint-disable-next-line no-console
           console.warn(e);
         });
     }
@@ -121,18 +121,13 @@ export default class MainWeather {
       this.mainData.wind = this.getWind(data.wind.speed);
       this.mainData.sunrise = this.hoursCorrection(data.sys.sunrise);
       this.mainData.sunset = this.hoursCorrection(data.sys.sunset);
-      // store.dispatch(setWeatherInCurrentCity(this));
       store.dispatch(downLoading(WEATHER_LOADING));
-      // console.log(data);
     });
   }
 
   getForecast() {
     const action = '/forecast';
     this.getResponseFromApi(action, (data) => {
-      // const map = new Map();
-      // data.list.map((list) => map.set(list.weather[0].description, list.weather[0].description));
-      // console.dir(map);
       for (let i = 0; i < this.countOfHourlyForecast; i++) {
         this.hourlyForecast.push({
           time: this.hoursCorrection(data.list[i].dt),
