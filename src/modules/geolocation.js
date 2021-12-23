@@ -1,5 +1,5 @@
-import store from './Skyax/store';
-import { setCurrentCity, setLocation, setError } from './Skyax/actions';
+import store from './skyax/store';
+import { setCurrentCity, setLocation, setError } from './skyax/actions';
 
 // https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${openweathermapApiKey}
 

@@ -45,6 +45,7 @@ module.exports = {
       '@fonts': path.resolve(__dirname, 'fonts'),
       '@img': path.resolve(__dirname, 'img'),
       '@sass': path.resolve(__dirname, 'sass'),
+      Skyact: path.resolve(__dirname, 'lib/Skyact/'),
     },
   },
   optimization: optimization(),

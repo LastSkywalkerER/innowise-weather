@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../../Skyact';
+import Skyact from 'Skyact';
 
 import cloud1Image from '../../../static/weather-img/main-weather-image/cloud1.png';
 import cloud2Image from '../../../static/weather-img/main-weather-image/cloud2.png';

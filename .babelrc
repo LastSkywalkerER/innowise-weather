@@ -3,5 +3,13 @@
     "test": {
       "plugins": ["@babel/plugin-transform-modules-commonjs"]
     }
-  }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./"],
+      "alias": {
+        "Skyact": "./lib/Skyact/"
+      }
+    }]
+  ]
 }

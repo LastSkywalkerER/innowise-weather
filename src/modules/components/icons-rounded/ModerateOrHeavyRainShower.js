@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../../Skyact';
+import Skyact from 'Skyact';
 
 export default class ModerateOrHeavyRainShower extends Skyact.SkyactComponent {
   constructor(props) {

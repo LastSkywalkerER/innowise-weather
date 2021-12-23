@@ -1,13 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../Skyact';
+import Skyact from 'Skyact';
 
 export default class HoursForecastData extends Skyact.SkyactComponent {
   render() {
-    const {
-      time,
-      icon,
-      temp,
-    } = this.props;
+    const { time, icon, temp } = this.props;
 
     return Skyact.createElement('div', null, [
       Skyact.createElement('span', null, [time]),

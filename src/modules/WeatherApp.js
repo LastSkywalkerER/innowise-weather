@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from './Skyact';
+import Skyact from 'Skyact';
 import Navigation from './components/Navigation';
 import ErrorPopup from './components/ErrorPopup';
 import routes from './router/routes';
@@ -42,15 +42,21 @@ export default class WeatherApp extends Skyact.SkyactComponent {
   }
 
   render() {
-    return Skyact.createElement('div', null,
-      [
-        Skyact.createElement('a', {
+    return Skyact.createElement('div', null, [
+      Skyact.createElement(
+        'a',
+        {
           className: 'designer-bio',
           href: 'https://linktr.ee/adinyanuar',
-        }, 'Designed by Adin Yanuar'),
-        Skyact.createElement(router.switchComponent(switcher, routes.mainScreen), null),
-        Skyact.createElement(Navigation, null),
-        Skyact.createElement(ErrorPopup, null),
-      ]);
+        },
+        'Designed by Adin Yanuar',
+      ),
+      Skyact.createElement(
+        router.switchComponent(switcher, routes.mainScreen),
+        null,
+      ),
+      Skyact.createElement(Navigation, null),
+      Skyact.createElement(ErrorPopup, null),
+    ]);
   }
 }

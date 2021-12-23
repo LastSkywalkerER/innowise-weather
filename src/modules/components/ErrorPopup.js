@@ -1,12 +1,8 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../Skyact';
-import store from '../Skyax/store';
-import {
-  ERROR,
-} from '../Skyax/constants';
-import {
-  setError
-} from '../Skyax/actions';
+import Skyact from 'Skyact';
+import store from '../skyax/store';
+import { ERROR } from '../skyax/constants';
+import { setError } from '../skyax/actions';
 
 import '../../styles/error-popup.sass';
 
@@ -43,10 +39,20 @@ export default class ErrorPopup extends Skyact.SkyactComponent {
     const errorText = this.state.error ? this.state.error : '@';
     const errorClass = this.state.error ? 'error-popup active' : 'error-popup';
 
-    return Skyact.createElement('div', {
-      className: errorClass,
-    }, [Skyact.createElement('p', {
-      className: 'error-text',
-    }, errorText)]);
+    return Skyact.createElement(
+      'div',
+      {
+        className: errorClass,
+      },
+      [
+        Skyact.createElement(
+          'p',
+          {
+            className: 'error-text',
+          },
+          errorText,
+        ),
+      ],
+    );
   }
 }

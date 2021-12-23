@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../../Skyact';
-import store from '../../Skyax/store';
+import Skyact from 'Skyact';
+import store from '../../skyax/store';
 
 import cloud1Image from '../../../static/weather-img/main-weather-image/cloud1.png';
 import cloud2Image from '../../../static/weather-img/main-weather-image/cloud2.png';
@@ -28,46 +28,54 @@ export default class LightSnow extends Skyact.SkyactComponent {
       Skyact.createElement('div', {
         className: 'sun animation-sun',
       }),
-      Skyact.createElement('div', {
-        className: 'cloud1 animation-cloud1',
-      }, [
-        Skyact.createElement('img', {
-          className: 'cloud',
-          src: cloud1Image,
-        }),
-        Skyact.createElement('img', {
-          className: 'blob animation-snowflake animation-blob1',
-          src: blob,
-        }),
-        Skyact.createElement('img', {
-          className: 'blob animation-snowflake animation-blob2',
-          src: blob,
-        }),
-        Skyact.createElement('img', {
-          className: 'blob animation-snowflake animation-blob3',
-          src: blob,
-        }),
-      ]),
-      Skyact.createElement('div', {
-        className: 'cloud2 animation-cloud2',
-      }, [
-        Skyact.createElement('img', {
-          className: 'cloud',
-          src: cloud2Image,
-        }),
-        Skyact.createElement('img', {
-          className: 'blob animation-snowflake animation-blob1',
-          src: blob,
-        }),
-        Skyact.createElement('img', {
-          className: 'blob animation-snowflake animation-blob2',
-          src: blob,
-        }),
-        Skyact.createElement('img', {
-          className: 'blob animation-snowflake animation-blob3',
-          src: blob,
-        }),
-      ]),
+      Skyact.createElement(
+        'div',
+        {
+          className: 'cloud1 animation-cloud1',
+        },
+        [
+          Skyact.createElement('img', {
+            className: 'cloud',
+            src: cloud1Image,
+          }),
+          Skyact.createElement('img', {
+            className: 'blob animation-snowflake animation-blob1',
+            src: blob,
+          }),
+          Skyact.createElement('img', {
+            className: 'blob animation-snowflake animation-blob2',
+            src: blob,
+          }),
+          Skyact.createElement('img', {
+            className: 'blob animation-snowflake animation-blob3',
+            src: blob,
+          }),
+        ],
+      ),
+      Skyact.createElement(
+        'div',
+        {
+          className: 'cloud2 animation-cloud2',
+        },
+        [
+          Skyact.createElement('img', {
+            className: 'cloud',
+            src: cloud2Image,
+          }),
+          Skyact.createElement('img', {
+            className: 'blob animation-snowflake animation-blob1',
+            src: blob,
+          }),
+          Skyact.createElement('img', {
+            className: 'blob animation-snowflake animation-blob2',
+            src: blob,
+          }),
+          Skyact.createElement('img', {
+            className: 'blob animation-snowflake animation-blob3',
+            src: blob,
+          }),
+        ],
+      ),
     ]);
   }
 }

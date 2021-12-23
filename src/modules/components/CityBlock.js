@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../Skyact';
+import Skyact from 'Skyact';
 import Humidity from './Humidity';
 import Wind from './Wind';
-import store from '../Skyax/store';
-import { removeCitySaved, setCurrentCity } from '../Skyax/actions';
+import store from '../skyax/store';
+import { removeCitySaved, setCurrentCity } from '../skyax/actions';
 import router from '../router/routerInitial';
 import routes from '../router/routes';
 

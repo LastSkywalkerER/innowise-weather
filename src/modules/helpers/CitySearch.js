@@ -1,17 +1,15 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
-import {
-  weathermapApiKey,
-} from '../Skyax/constants';
-import store from '../Skyax/store';
+import { weathermapApiKey } from '../skyax/constants';
+import store from '../skyax/store';
 import {
   updateCityList,
   addCitySaved,
   setInputValue,
   clearCitySaved,
   setError,
-} from '../Skyax/actions';
+} from '../skyax/actions';
 
 import iconsRoundedParser from './iconsRoundedParser';
 
@@ -109,17 +107,19 @@ export default class MainWeather {
     store.dispatch(clearCitySaved());
     this.dataList = [];
     if (this.savedCities.length) {
-      this.savedCities.forEach((city) => this.getResponseFromApi(action, city.name, (data) => {
-        this.dataList.push({
-          city: data.location.name,
-          country: data.location.country,
-          temp: this.getTemp(data.current.temp_c, data.current.temp_f),
-          Icon: iconsRoundedParser(data.current.condition.text),
-          humidity: `${data.current.humidity}%`,
-          wind: this.getWind(data.current.wind_kph, data.current.wind_mph),
-        });
-        store.dispatch(addCitySaved(city));
-      }));
+      this.savedCities.forEach((city) =>
+        this.getResponseFromApi(action, city.name, (data) => {
+          this.dataList.push({
+            city: data.location.name,
+            country: data.location.country,
+            temp: this.getTemp(data.current.temp_c, data.current.temp_f),
+            Icon: iconsRoundedParser(data.current.condition.text),
+            humidity: `${data.current.humidity}%`,
+            wind: this.getWind(data.current.wind_kph, data.current.wind_mph),
+          });
+          store.dispatch(addCitySaved(city));
+        }),
+      );
     }
   }
 

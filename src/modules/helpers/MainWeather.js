@@ -6,9 +6,9 @@ import {
   WEATHER_LOADING,
   FORECAST_LOADING,
   LOCATION_WEATHER_LOADING,
-} from '../Skyax/constants';
-import store from '../Skyax/store';
-import { downLoading, setError } from '../Skyax/actions';
+} from '../skyax/constants';
+import store from '../skyax/store';
+import { downLoading, setError } from '../skyax/actions';
 import inconsParser from './inconsParser';
 
 export default class MainWeather {

@@ -1,18 +1,18 @@
 /* eslint-disable indent */
 /* eslint-disable class-methods-use-this */
 
-import Skyact from '../Skyact';
+import Skyact from 'Skyact';
 import DataString from '../components/DataString';
 import Settings from '../components/Settings';
 import { settings } from '../config';
 import MainWeather from '../helpers/MainWeather';
-import store from '../Skyax/store';
-import { upLoading } from '../Skyax/actions';
+import store from '../skyax/store';
+import { upLoading } from '../skyax/actions';
 import {
   LOCATION_WEATHER_LOADING,
   CHANGE_SETTINGS,
   SET_LOCATION,
-} from '../Skyax/constants';
+} from '../skyax/constants';
 import mainInconsParser from '../helpers/mainInconsParser';
 import Loader from '../components/Loader';
 // Skyact.createElement('', null, [])

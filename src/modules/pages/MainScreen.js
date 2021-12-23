@@ -1,12 +1,12 @@
 /* eslint-disable indent */
 /* eslint-disable class-methods-use-this */
-import Skyact from '../Skyact';
+import Skyact from 'Skyact';
 import HoursForecastData from '../components/HoursForecastData';
 import DaysForecastData from '../components/DaysForecastData';
 import DataString from '../components/DataString';
-import store from '../Skyax/store';
-import { upLoading } from '../Skyax/actions';
-import { WEATHER_LOADING, FORECAST_LOADING } from '../Skyax/constants';
+import store from '../skyax/store';
+import { upLoading } from '../skyax/actions';
+import { WEATHER_LOADING, FORECAST_LOADING } from '../skyax/constants';
 import MainWeather from '../helpers/MainWeather';
 import Loader from '../components/Loader';
 import mainInconsParser from '../helpers/mainInconsParser';

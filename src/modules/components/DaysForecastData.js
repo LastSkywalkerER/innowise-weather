@@ -1,14 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import Skyact from '../Skyact';
+import Skyact from 'Skyact';
 
 export default class DaysForecastData extends Skyact.SkyactComponent {
   render() {
-    const {
-      day,
-      icon,
-      temp1,
-      temp2,
-    } = this.props;
+    const { day, icon, temp1, temp2 } = this.props;
 
     return Skyact.createElement('div', null, [
       Skyact.createElement('span', null, [day]),

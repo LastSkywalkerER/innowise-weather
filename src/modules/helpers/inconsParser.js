@@ -27,7 +27,7 @@ import snowLight from '../../static/weather-img/icons/forecast-icons/snow-light.
 import moderateSnowLight from '../../static/weather-img/icons/forecast-icons/moderate-snow-light.svg';
 import thunderLight from '../../static/weather-img/icons/forecast-icons/thunder-light.svg';
 
-import store from '../Skyax/store';
+import store from '../skyax/store';
 
 const checkTheme = (darkMode, lightMode) => {
   // eslint-disable-next-line prefer-destructuring

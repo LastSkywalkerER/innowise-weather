@@ -1,4 +1,5 @@
 module.exports = {
+  parser: 'babel-eslint',
   env: {
     browser: true,
     es2021: true,
@@ -21,5 +22,10 @@ module.exports = {
     'no-continue': 0,
     'implicit-arrow-linebreak': 0,
     'function-paren-newline': 0,
+  },
+  settings: {
+    'import/resolver': {
+      alias: [['Skyact', 'lib/Skyact']],
+    },
   },
 };
