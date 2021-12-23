@@ -13,7 +13,7 @@ import {
 
 import iconsRoundedParser from './iconsRoundedParser';
 
-export default class MainWeather {
+export default class CitySearch {
   constructor() {
     this.searchField = '';
     this.cityList = [];

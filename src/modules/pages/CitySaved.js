@@ -3,15 +3,14 @@
 /* eslint-disable class-methods-use-this */
 import Skyact from 'Skyact';
 import CityBlock from '../components/CityBlock';
-import CityListItem from '../components/CityListItem';
+import CitySavedSearch from '../components/CitySavedSearch';
+import isArraysEqual from '../helpers/isArrayEqual';
+
 import CitySearch from '../helpers/CitySearch';
 import {} from '../skyax/constants';
 import store from '../skyax/store';
-import { setInput, setInputValue, editCities } from '../skyax/actions';
+import { editCities } from '../skyax/actions';
 
-import search from '../../static/weather-img/icons/search.svg';
-import edit from '../../static/weather-img/icons/edit.svg';
-import editActive from '../../static/weather-img/icons/edit-active.svg';
 import '../../styles/weather-icons.sass';
 // Skyact.createElement('', null, [])
 
@@ -22,30 +21,14 @@ export default class CitySaved extends Skyact.SkyactComponent {
     super(props);
     this.citiesData = new CitySearch();
     this.state = {
-      cityList: store.getState().cityList,
       citySaved: store.getState().citySaved,
       editCities: store.getState().editCities,
     };
   }
 
-  isArraysEqual(array1, array2) {
-    return (
-      !array1.find((item, i) => array1[i] !== array2[i]) &&
-      array1.length === array2.length
-    );
-  }
-
   componentDidMount() {
     this.subscription = (state) => {
-      if (
-        !this.isArraysEqual(state.cityList, this.state.cityList) &&
-        state.cityList.length
-      ) {
-        this.setState({
-          cityList: state.cityList,
-        });
-      }
-      if (!this.isArraysEqual(state.citySaved, this.state.citySaved)) {
+      if (!isArraysEqual(state.citySaved, this.state.citySaved)) {
         this.setState({
           citySaved: state.citySaved,
         });
@@ -101,45 +84,10 @@ export default class CitySaved extends Skyact.SkyactComponent {
             className: 'container',
           },
           [
-            Skyact.createElement(
-              'div',
-              {
-                className: 'search-block',
-              },
-              [
-                Skyact.createElement('img', {
-                  src: search,
-                  onClick: () => this.citiesData.addCity(),
-                }),
-                Skyact.createElement('input', {
-                  placeHolder: 'Search',
-                  list: 'citiesList',
-                  onInput: (event) => {
-                    store.dispatch(setInputValue(event.target.value));
-                    this.citiesData.addCity();
-                  },
-                  // eslint-disable-next-line no-return-assign
-                  getRef: (element) => {
-                    store.dispatch(setInput(element));
-                  },
-                }),
-                Skyact.createElement(
-                  'datalist',
-                  {
-                    id: 'citiesList',
-                  },
-                  this.state.cityList.map((city) =>
-                    Skyact.createElement(CityListItem, city),
-                  ),
-                ),
-                Skyact.createElement('img', {
-                  src: this.state.editCities ? editActive : edit,
-                  onClick: () => {
-                    store.dispatch(editCities(!this.state.editCities));
-                  },
-                }),
-              ],
-            ),
+            Skyact.createElement(CitySavedSearch, {
+              addCity: this.citiesData.addCity.bind(this.citiesData),
+              editCities: this.state.editCities,
+            }),
             Skyact.createElement(
               'div',
               {
